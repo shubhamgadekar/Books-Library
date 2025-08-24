@@ -24,18 +24,18 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.alpha.books_explorer.domain.model.Book
 
-
 @Composable
 fun BookList(
     books: List<Book>,
     navController: NavController,
-    emptyMessage: String = "There is something with list. List is empty now!"
+    emptyMessage: String = "There is something with list. List is empty now!",
 ) {
     if (books.isNotEmpty()) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
         ) {
             items(books.size) { book ->
                 BookCard(book = books[book], navController)
@@ -52,30 +52,32 @@ fun BookList(
 @Composable
 fun BookCard(
     book: Book,
-    navController: NavController
+    navController: NavController,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .clickable {
-                navController.navigate("bookDetailsScreen/${book.id}")
-            }) {
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .clickable {
+                    navController.navigate("bookDetailsScreen/${book.id}")
+                },
+    ) {
         Image(
             painter = rememberAsyncImagePainter(book.volumeInfo?.imageLinks?.thumbnail),
             contentDescription = book.volumeInfo?.title,
             modifier = Modifier.size(80.dp),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
         Spacer(modifier = Modifier.width(12.dp))
         Column {
             Text(
                 text = book.volumeInfo?.title ?: "Dummy Title",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
             Text(
                 text = book.volumeInfo?.authors?.joinToString(", ") ?: "",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }

@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 data class SearchScreenUiState(
     val isLoading: Boolean = false,
     val books: Flow<PagingData<Book>>? = null,
-    val error: String? = null
+    val error: String? = null,
 )

@@ -15,13 +15,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object LocalDbModule {
-
     @Provides
     @Singleton
-    fun provideLocalDatabase(@ApplicationContext context: Context): FavBookDatabase {
-        val db = Room
-            .databaseBuilder(context, FavBookDatabase::class.java, "fav_books_db")
-            .build()
+    fun provideLocalDatabase(
+        @ApplicationContext context: Context,
+    ): FavBookDatabase {
+        val db =
+            Room
+                .databaseBuilder(context, FavBookDatabase::class.java, "fav_books_db")
+                .build()
         return db
     }
 

@@ -34,12 +34,10 @@ import com.alpha.books_explorer.presentation.ui.BookCard
 @Composable
 fun SearchScreen(
     navController: NavController,
-    viewModel: SearchScreenViewModel = hiltViewModel()
+    viewModel: SearchScreenViewModel = hiltViewModel(),
 ) {
-
     var searchQuery = viewModel.searchText.collectAsState("").value
     var searchUiState = viewModel.searchBookList.collectAsState().value
-
 
     Scaffold(
         topBar = {
@@ -48,13 +46,15 @@ fun SearchScreen(
                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                 }
             })
-        }) { paddingValues ->
+        },
+    ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TextField(
                 value = searchQuery,
@@ -62,7 +62,7 @@ fun SearchScreen(
                     viewModel.updateSearchText(it)
                 },
                 label = { Text("Enter search query") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             // Add your search results list or other UI elements here
             Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
@@ -85,7 +85,7 @@ fun SearchScreen(
                             SearchBookList(
                                 books = books,
                                 navController,
-                                emptyMessage = "Search for any keyword to get book list"
+                                emptyMessage = "Search for any keyword to get book list",
                             )
                         } ?: ShowEmptyScreen("Search for any keyword to get book list")
                     }
@@ -99,13 +99,14 @@ fun SearchScreen(
 fun SearchBookList(
     books: LazyPagingItems<Book>,
     navController: NavController,
-    emptyMessage: String = "There is something with list. List is empty now!"
+    emptyMessage: String = "There is something with list. List is empty now!",
 ) {
     if (books.itemCount > 0) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(8.dp),
         ) {
             items(books.itemCount) { book ->
                 if (books[book] != null) {

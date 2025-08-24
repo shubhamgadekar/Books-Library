@@ -25,7 +25,7 @@ import com.alpha.books_explorer.presentation.ui.BookList
 @Composable
 fun WishlistScreen(
     viewModel: WishlistViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
@@ -41,9 +41,9 @@ fun WishlistScreen(
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when {
@@ -60,7 +60,11 @@ fun WishlistScreen(
                 }
 
                 else -> {
-                    BookList(books = uiState.books, navController, "You do not have anything in your wish list. \nYou can add into reading list from Search/Home screen.")
+                    BookList(
+                        books = uiState.books,
+                        navController,
+                        "You do not have anything in your wish list. \nYou can add into reading list from Search/Home screen.",
+                    )
                 }
             }
         }

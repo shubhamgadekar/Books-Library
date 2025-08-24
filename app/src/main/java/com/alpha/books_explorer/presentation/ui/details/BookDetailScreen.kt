@@ -22,17 +22,14 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -43,8 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,13 +59,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.alpha.books_explorer.R
 import com.alpha.books_explorer.domain.model.Book
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookDetailScreen(
     navController: NavController,
     bookId: String,
-    viewModel: BookDetailViewModel = hiltViewModel()
+    viewModel: BookDetailViewModel = hiltViewModel(),
 ) {
     val book by viewModel.bookState.collectAsState()
     val context = LocalContext.current
@@ -90,7 +84,7 @@ fun BookDetailScreen(
                     Text(
                         book.book?.volumeInfo?.title ?: "Book Details",
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 },
                 navigationIcon = {
@@ -101,17 +95,18 @@ fun BookDetailScreen(
                 actions = {
                     book.book.let { currentBook ->
                         IconButton(onClick = {
-                            val sendIntent = Intent().apply {
-                                action = Intent.ACTION_SEND
-                                putExtra(
-                                    Intent.EXTRA_TEXT,
-                                    "Check out this book: ${currentBook?.volumeInfo?.title} by ${
+                            val sendIntent =
+                                Intent().apply {
+                                    action = Intent.ACTION_SEND
+                                    putExtra(
+                                        Intent.EXTRA_TEXT,
+                                        "Check out this book: ${currentBook?.volumeInfo?.title} by ${
 //                                        currentBook?.volumeInfo?.authors
-                                        currentBook?.volumeInfo?.authors?.joinToString(", ")
-                                    }\n\n${currentBook?.volumeInfo?.description?.take(100)}..."
-                                )
-                                type = "text/plain"
-                            }
+                                            currentBook?.volumeInfo?.authors?.joinToString(", ")
+                                        }\n\n${currentBook?.volumeInfo?.description?.take(100)}...",
+                                    )
+                                    type = "text/plain"
+                                }
                             val shareIntent = Intent.createChooser(sendIntent, "Share Book Via")
                             context.startActivity(shareIntent)
                         }) {
@@ -119,21 +114,23 @@ fun BookDetailScreen(
                         }
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
             )
-        }
+        },
     ) { paddingValues ->
         when {
             book.isLoading -> {
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .padding(paddingValues), contentAlignment = Alignment.Center
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator()
                 }
@@ -143,11 +140,12 @@ fun BookDetailScreen(
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .padding(paddingValues), contentAlignment = Alignment.Center
+                        .padding(paddingValues),
+                    contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         "Book not found or error loading.",
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
                     )
                 }
             }
@@ -156,63 +154,70 @@ fun BookDetailScreen(
                 BookDetailsContent(
                     book = book.book,
                     modifier = Modifier.padding(paddingValues),
-                    viewModel = viewModel
+                    viewModel = viewModel,
                 )
             }
         }
     }
 }
 
-
 @Composable
-fun BookDetailsContent(book: Book?, modifier: Modifier = Modifier, viewModel: BookDetailViewModel) {
+fun BookDetailsContent(
+    book: Book?,
+    modifier: Modifier = Modifier,
+    viewModel: BookDetailViewModel,
+) {
     if (book == null) return
 
     val isItemInWishlist = viewModel.checkWishlistItem.collectAsState().value
     val isItemInReadinglist = viewModel.checkReadinglistItem.collectAsState().value
 
     Column(
-        modifier = modifier
-            .fillMaxWidth() // Changed from fillMaxSize to allow padding from Scaffold
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+        modifier =
+            modifier
+                .fillMaxWidth() // Changed from fillMaxSize to allow padding from Scaffold
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
     ) {
         // Top section with Thumbnail and core info
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.Top, // Align items to the top of the row
-            horizontalArrangement = Arrangement.spacedBy(16.dp) // Space between image and text column
+            horizontalArrangement = Arrangement.spacedBy(16.dp), // Space between image and text column
         ) {
             // Book Thumbnail
             Image(
-                painter = if (book.volumeInfo?.imageLinks?.thumbnail != null) {
-                    rememberAsyncImagePainter(
-                        model = book.volumeInfo?.imageLinks?.thumbnail,
-                        // It's good practice to provide placeholders and error drawables for network images
-                        placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                        error = painterResource(id = R.drawable.ic_launcher_background)
-                    )
-                } else {
-                    // Fallback for when thumbnail is null
-                    painterResource(id = R.drawable.ic_launcher_background)
-                },
+                painter =
+                    if (book.volumeInfo?.imageLinks?.thumbnail != null) {
+                        rememberAsyncImagePainter(
+                            model = book.volumeInfo?.imageLinks?.thumbnail,
+                            // It's good practice to provide placeholders and error drawables for network images
+                            placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                            error = painterResource(id = R.drawable.ic_launcher_background),
+                        )
+                    } else {
+                        // Fallback for when thumbnail is null
+                        painterResource(id = R.drawable.ic_launcher_background)
+                    },
                 contentDescription = book.volumeInfo?.title,
-                modifier = Modifier
-                    .size(width = 130.dp, height = 190.dp) // Slightly larger thumbnail
-                    .clip(RoundedCornerShape(8.dp)) // Softer corners
-                    .background(MaterialTheme.colorScheme.surfaceVariant), // Placeholder bg
-                contentScale = ContentScale.Crop // Crop to fill bounds
+                modifier =
+                    Modifier
+                        .size(width = 130.dp, height = 190.dp) // Slightly larger thumbnail
+                        .clip(RoundedCornerShape(8.dp)) // Softer corners
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                // Placeholder bg
+                contentScale = ContentScale.Crop, // Crop to fill bounds
             )
 
             // Title, Author, and other short info
             Column(
-                modifier = Modifier.weight(1f) // Takes remaining space
+                modifier = Modifier.weight(1f), // Takes remaining space
             ) {
                 Text(
                     text = book.volumeInfo?.title ?: "Dummy Title",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -220,7 +225,7 @@ fun BookDetailsContent(book: Book?, modifier: Modifier = Modifier, viewModel: Bo
 //                    text = "by ${book.volumeInfo?.authors}",
                     style = MaterialTheme.typography.titleMedium,
                     fontStyle = FontStyle.Italic,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }
@@ -232,17 +237,17 @@ fun BookDetailsContent(book: Book?, modifier: Modifier = Modifier, viewModel: Bo
             text = "Description",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Divider(
             modifier = Modifier.padding(vertical = 8.dp),
-            color = MaterialTheme.colorScheme.outlineVariant
+            color = MaterialTheme.colorScheme.outlineVariant,
         )
         Text(
             text = book.volumeInfo?.description ?: "Dummy Description",
             style = MaterialTheme.typography.bodyLarge,
             lineHeight = 24.sp, // Improve readability for long text
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -251,7 +256,7 @@ fun BookDetailsContent(book: Book?, modifier: Modifier = Modifier, viewModel: Bo
         // You can add buttons for actions like "Add to Wishlist", "Read Now", etc.
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End) // Align to end
+            horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End), // Align to end
         ) {
 //            Button(onClick = { /* TODO: Implement Wishlist Action */ }) {
 //                Text("Add to Wishlist")
@@ -267,7 +272,7 @@ fun BookDetailsContent(book: Book?, modifier: Modifier = Modifier, viewModel: Bo
                         println("Item REMOVED from wishlist with text button")
                         viewModel.removeFromWishList(book)
                     }
-                }
+                },
             )
 
             ReadListToggleButton(
@@ -280,7 +285,7 @@ fun BookDetailsContent(book: Book?, modifier: Modifier = Modifier, viewModel: Bo
                         println("Item REMOVED from wishlist with text button")
                         viewModel.removeFromReadingList(book)
                     }
-                }
+                },
             )
         }
         Spacer(modifier = Modifier.height(16.dp)) // Bottom padding
@@ -293,26 +298,26 @@ fun FavoriteTextToggleButton(
     isFavorite: Boolean,
     onFavoriteChanged: (Boolean) -> Unit,
     iconTint: Color = Color.Red, // Tint for the filled heart
-    contentColor: Color = MaterialTheme.colorScheme.primary // Default content color for button
+    contentColor: Color = MaterialTheme.colorScheme.primary, // Default content color for button
 ) {
     TextButton(
         onClick = { onFavoriteChanged(!isFavorite) }, // Toggle the state on click
         modifier = modifier,
-        colors = ButtonDefaults.textButtonColors(contentColor = contentColor)
+        colors = ButtonDefaults.textButtonColors(contentColor = contentColor),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center // Or Start, if you prefer
+            horizontalArrangement = Arrangement.Center, // Or Start, if you prefer
         ) {
             Icon(
                 imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                 contentDescription = if (isFavorite) "Remove from Wishlist" else "Add to Wishlist",
                 tint = if (isFavorite) iconTint else contentColor, // Apply specific tint when favorited
-                modifier = Modifier.size(ButtonDefaults.IconSize) // Standard button icon size
+                modifier = Modifier.size(ButtonDefaults.IconSize), // Standard button icon size
             )
             Spacer(Modifier.width(ButtonDefaults.IconSpacing)) // Standard spacing
             Text(
-                text = if (isFavorite) "In Wishlist" else "Add to Wishlist"
+                text = if (isFavorite) "In Wishlist" else "Add to Wishlist",
             )
         }
     }
@@ -324,26 +329,26 @@ fun ReadListToggleButton(
     isFavorite: Boolean,
     onFavoriteChanged: (Boolean) -> Unit,
     iconTint: Color = Color.Green, // Tint for the filled heart
-    contentColor: Color = MaterialTheme.colorScheme.primary // Default content color for button
+    contentColor: Color = MaterialTheme.colorScheme.primary, // Default content color for button
 ) {
     TextButton(
         onClick = { onFavoriteChanged(!isFavorite) }, // Toggle the state on click
         modifier = modifier,
-        colors = ButtonDefaults.textButtonColors(contentColor = contentColor)
+        colors = ButtonDefaults.textButtonColors(contentColor = contentColor),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center // Or Start, if you prefer
+            horizontalArrangement = Arrangement.Center, // Or Start, if you prefer
         ) {
             Icon(
                 imageVector = if (isFavorite) Icons.Filled.Done else Icons.Outlined.Done,
                 contentDescription = if (isFavorite) "Remove from Wishlist" else "Add to Wishlist",
                 tint = if (isFavorite) iconTint else contentColor, // Apply specific tint when favorited
-                modifier = Modifier.size(ButtonDefaults.IconSize) // Standard button icon size
+                modifier = Modifier.size(ButtonDefaults.IconSize), // Standard button icon size
             )
             Spacer(Modifier.width(ButtonDefaults.IconSpacing)) // Standard spacing
             Text(
-                text = if (isFavorite) "Read List" else "Read List"
+                text = if (isFavorite) "Read List" else "Read List",
             )
         }
     }

@@ -1,7 +1,6 @@
 package com.alpha.books_explorer.presentation.ui.profile
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,9 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 //
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun ProfileScreen(navController: NavController) {
+// @OptIn(ExperimentalMaterial3Api::class)
+// @Composable
+// fun ProfileScreen(navController: NavController) {
 //    Scaffold(
 //        topBar = {
 //            TopAppBar(
@@ -80,14 +79,13 @@ import androidx.navigation.NavController
 //            )
 //        }
 //    }
-//}
-
+// }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,
-    profileViewModel: ProfileViewModel = viewModel()
+    profileViewModel: ProfileViewModel = viewModel(),
 ) {
     val userProfile by profileViewModel.userProfile.collectAsState()
 
@@ -105,21 +103,24 @@ fun ProfileScreen(
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
             )
-        }
+        },
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues) // Apply padding from Scaffold
-                .padding(horizontal = 16.dp) // Horizontal padding for content
-                .verticalScroll(rememberScrollState()), // Make content scrollable if it gets long
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues) // Apply padding from Scaffold
+                    .padding(horizontal = 16.dp) // Horizontal padding for content
+                    .verticalScroll(rememberScrollState()),
+            // Make content scrollable if it gets long
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -128,7 +129,7 @@ fun ProfileScreen(
                 imageVector = Icons.Filled.Person,
                 contentDescription = "Profile Icon",
                 modifier = Modifier.size(120.dp),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
             )
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -159,7 +160,7 @@ fun ProfileScreen(
                  style = MaterialTheme.typography.bodyLarge,
                  modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
              )
-            */
+             */
 
             Spacer(modifier = Modifier.height(24.dp))
             Divider()
@@ -171,7 +172,7 @@ fun ProfileScreen(
                 text = "My Wishlist",
                 onClick = {
                     navController.navigate("wishlistScreen") // Define this route
-                }
+                },
             )
 
             // You can add more navigation items here, e.g., Order History, Settings
@@ -181,9 +182,10 @@ fun ProfileScreen(
             // Example: Logout Button
             Button(
                 onClick = { /* TODO: Implement Logout Logic */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp),
             ) {
                 Text("Logout")
             }
@@ -191,54 +193,58 @@ fun ProfileScreen(
     }
 }
 
-
 @Composable
-fun ProfileInfoItem(label: String, value: String, modifier: Modifier = Modifier) {
+fun ProfileInfoItem(
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier,
+) {
     Column(modifier = modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Text(
             text = value.ifEmpty { "N/A" }, // Show N/A if value is empty
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
     }
 }
-
 
 @Composable
 fun ProfileNavigationItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(vertical = 16.dp, horizontal = 8.dp), // Increased vertical padding
-        verticalAlignment = Alignment.CenterVertically
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onClick)
+                .padding(vertical = 16.dp, horizontal = 8.dp),
+        // Increased vertical padding
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = icon,
             contentDescription = text,
             tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(24.dp),
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = text,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.weight(1f) // Pushes chevron to the end
+            modifier = Modifier.weight(1f), // Pushes chevron to the end
         )
         Icon(
             imageVector = Icons.Filled.KeyboardArrowRight,
             contentDescription = "Navigate",
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

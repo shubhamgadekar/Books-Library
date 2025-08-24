@@ -28,7 +28,7 @@ import com.alpha.books_explorer.presentation.ui.BookList
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navController: NavController,
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
@@ -47,9 +47,9 @@ fun HomeScreen(
                     IconButton(onClick = { navController.navigate("profile") }) {
                         Icon(Icons.Filled.AccountCircle, contentDescription = "Profile")
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             when {
@@ -69,7 +69,7 @@ fun HomeScreen(
                     BookList(
                         books = uiState.books,
                         navController,
-                        emptyMessage = "You do not have anything in your reading list. \nYou can add into reading list from search screen."
+                        emptyMessage = "You do not have anything in your reading list. \nYou can add into reading list from search screen.",
                     )
                 }
             }

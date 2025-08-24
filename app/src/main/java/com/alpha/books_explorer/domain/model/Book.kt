@@ -1,6 +1,5 @@
 package com.alpha.books_explorer.domain.model
 
-
 data class Book(
     val id: String,
     val volumeInfo: VolumeInfo,
@@ -17,5 +16,5 @@ data class VolumeInfo(
 )
 
 data class ImageLinks(
-    val thumbnail: String?
+    val thumbnail: String?,
 )

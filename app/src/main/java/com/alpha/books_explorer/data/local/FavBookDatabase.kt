@@ -12,7 +12,6 @@ import com.alpha.books_explorer.data.local.entities.ReadingListEntity
 @Database(entities = [BookEntity::class, ReadingListEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class FavBookDatabase() : RoomDatabase() {
-
     abstract fun getFavBookDao(): FavBookDao
 
     abstract fun getReadingListDao(): ReadingListDao

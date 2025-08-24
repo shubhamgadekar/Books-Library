@@ -5,7 +5,6 @@ import com.alpha.books_explorer.domain.model.Book
 import kotlinx.coroutines.flow.Flow
 
 interface BookRepository {
-
     fun getBooks(query: String): Flow<List<Book>>
 
     fun getBooksFromPaging(query: String): Flow<PagingData<Book>>

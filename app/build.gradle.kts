@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("io.gitlab.arturbosch.detekt")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 android {
@@ -25,7 +27,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -39,6 +41,19 @@ android {
     buildFeatures {
         compose = true
     }
+}
+
+detekt {
+    toolVersion = "1.23.6"
+    config.setFrom("$rootDir/config/detekt/detekt.yml") // optional custom rules
+    buildUponDefaultConfig = true
+}
+
+ktlint {
+    version.set("1.2.1")
+    android.set(true)
+    outputToConsole.set(true)
+    ignoreFailures.set(false)
 }
 
 dependencies {
@@ -58,7 +73,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 
     // Hilt
     implementation(libs.hilt.android)
@@ -99,4 +113,6 @@ dependencies {
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.turbine)
+
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
 }

@@ -9,7 +9,6 @@ import com.alpha.books_explorer.data.local.entities.BookEntity
 
 @Dao
 interface FavBookDao {
-
     @Query("SELECT * FROM favBooks")
     suspend fun getFavBooks(): List<BookEntity>
 

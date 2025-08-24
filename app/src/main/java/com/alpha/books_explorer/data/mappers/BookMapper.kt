@@ -6,38 +6,39 @@ import com.alpha.books_explorer.domain.model.Book
 import com.alpha.books_explorer.domain.model.ImageLinks
 import com.alpha.books_explorer.domain.model.VolumeInfo
 
-
 fun BookEntity.toBook(): Book {
     val image = ImageLinks(thumbnail = thumbnail)
-    val volume = VolumeInfo(
-        title = title,
-        subtitle = subtitle,
-        authors = authors,
-        publisher = publisher,
-        publishedDate = publishedDate,
-        description = description,
-        imageLinks = image
-    )
+    val volume =
+        VolumeInfo(
+            title = title,
+            subtitle = subtitle,
+            authors = authors,
+            publisher = publisher,
+            publishedDate = publishedDate,
+            description = description,
+            imageLinks = image,
+        )
     return Book(
         id = id,
-        volumeInfo = volume
+        volumeInfo = volume,
     )
 }
 
 fun ReadingListEntity.toBook(): Book {
     val image = ImageLinks(thumbnail = thumbnail)
-    val volume = VolumeInfo(
-        title = title,
-        subtitle = subtitle,
-        authors = authors,
-        publisher = publisher,
-        publishedDate = publishedDate,
-        description = description,
-        imageLinks = image
-    )
+    val volume =
+        VolumeInfo(
+            title = title,
+            subtitle = subtitle,
+            authors = authors,
+            publisher = publisher,
+            publishedDate = publishedDate,
+            description = description,
+            imageLinks = image,
+        )
     return Book(
         id = id,
-        volumeInfo = volume
+        volumeInfo = volume,
     )
 }
 

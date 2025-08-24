@@ -13,11 +13,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
@@ -34,7 +32,9 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideBookRepository(
-        api: BookApiService, favDao: FavBookDao, readingDao: ReadingListDao
+        api: BookApiService,
+        favDao: FavBookDao,
+        readingDao: ReadingListDao,
     ): BookRepository {
         return BookRepositoryImpl(api, favDao, readingDao)
     }

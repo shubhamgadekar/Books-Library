@@ -13,5 +13,5 @@ data class BookEntity(
     val publisher: String?,
     val publishedDate: String?,
     val description: String?,
-    val thumbnail: String?
+    val thumbnail: String?,
 )

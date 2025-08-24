@@ -4,58 +4,54 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alpha.books_explorer.domain.usecase.GetBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import kotlinx.coroutines.flow.Flow
-import com.alpha.books_explorer.domain.model.Book
 
 @HiltViewModel
-class SearchScreenViewModel @Inject constructor(
-    private val getBooksUseCase: GetBooksUseCase
-) : ViewModel() {
+class SearchScreenViewModel
+    @Inject
+    constructor(
+        private val getBooksUseCase: GetBooksUseCase,
+    ) : ViewModel() {
+        private val _searchText = MutableSharedFlow<String>()
+        val searchText: SharedFlow<String> = _searchText
 
-    private val _searchText = MutableSharedFlow<String>()
-    val searchText: SharedFlow<String> = _searchText
-
-    //    private val _searchBookList = MutableStateFlow(SearchScreenUiState())
+        //    private val _searchBookList = MutableStateFlow(SearchScreenUiState())
 //    val searchBookList: StateFlow<SearchScreenUiState> = _searchBookList
 //
-    private val _searchBookList = MutableStateFlow(SearchScreenUiState())
-    val searchBookList: StateFlow<SearchScreenUiState> = _searchBookList
+        private val _searchBookList = MutableStateFlow(SearchScreenUiState())
+        val searchBookList: StateFlow<SearchScreenUiState> = _searchBookList
 
-    init {
-        resetScreen()
-        viewModelScope.launch {
-            _searchText.debounce { 300 }.collect {
-                if (it.isNotEmpty()) {
-                    _searchBookList.value = SearchScreenUiState(isLoading = true)
-                    val result = getBooksUseCase.invokePaging(it)
-                    _searchBookList.value = SearchScreenUiState(books = result)
+        init {
+            resetScreen()
+            viewModelScope.launch {
+                _searchText.debounce { 300 }.collect {
+                    if (it.isNotEmpty()) {
+                        _searchBookList.value = SearchScreenUiState(isLoading = true)
+                        val result = getBooksUseCase.invokePaging(it)
+                        _searchBookList.value = SearchScreenUiState(books = result)
 //                    getBooksUseCase.invokePaging(it)
 //                        .catch { }
 //                        .collect {
 //                            _searchBookList.value = SearchScreenUiState(books = it)
 //                        }
+                    }
                 }
             }
         }
-    }
 
-    fun resetScreen() {
-        _searchBookList.value = SearchScreenUiState()
-    }
+        fun resetScreen() {
+            _searchBookList.value = SearchScreenUiState()
+        }
 
-    fun updateSearchText(text: String) {
-        viewModelScope.launch {
-            _searchText.emit(text)
+        fun updateSearchText(text: String) {
+            viewModelScope.launch {
+                _searchText.emit(text)
+            }
         }
     }
-}

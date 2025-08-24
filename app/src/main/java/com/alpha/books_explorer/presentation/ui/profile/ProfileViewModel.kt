@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-
 class ProfileViewModel : ViewModel() {
     private val _userProfile = MutableStateFlow(UserProfile()) // Default/empty profile
     val userProfile: StateFlow<UserProfile> = _userProfile
@@ -20,6 +19,7 @@ class ProfileViewModel : ViewModel() {
     fun updateFirstName(name: String) {
         _userProfile.value = _userProfile.value.copy(firstName = name)
     }
+
     fun updateLastName(name: String) {
         _userProfile.value = _userProfile.value.copy(lastName = name)
     }
@@ -28,5 +28,5 @@ class ProfileViewModel : ViewModel() {
 data class UserProfile(
     val firstName: String = "John",
     val lastName: String = "Doe",
-    val email: String = "john.doe@example.com"
+    val email: String = "john.doe@example.com",
 )
