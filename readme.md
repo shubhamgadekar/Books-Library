@@ -4,41 +4,120 @@ An Android app built with **Jetpack Compose** that lets you explore books using 
 This project is designed to practice and demonstrate modern Android development concepts like **MVVM, Clean Architecture, Hilt, Flows, RoomDB, Paging 3, Navigation, and Unit Testing**.
 
 ---
+## 📸 Screenshots:
+![Home Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Home.png)
+![Details Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Details.png)
+![Search Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Search.png)
+![Wishlist Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Wishlist.png)
+![Profile Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Profile.png)
 
+---
 ## ✨ Features
-- 🔎 Search books by title, author, or keyword
+- 🔎 Search books by keywords
 - 📖 View detailed book information (title, author, description, cover image)
-- ❤️ Save books to favorites (stored locally with RoomDB)
-- 🔄 Offline support with cached data
-- 🌗 Dark/Light theme with Material 3
+- ❤️ Save books to favorites/readList (stored locally with RoomDB)
 - 📑 Pagination with infinite scroll using Paging 3
-- 👤 Simple profile screen (LiveData + DataStore)
+- 👤 Simple profile screen
 
 ---
 
 ## 🛠️ Tech Stack
 - **UI:** Jetpack Compose (Material 3, Navigation Compose)
 - **Architecture:** MVVM + Clean Architecture
-- **Asynchronous:** Kotlin Coroutines, Flow, LiveData
+- **Asynchronous:** Kotlin Coroutines, Flow
 - **Dependency Injection:** Hilt
 - **Networking:** Retrofit + OkHttp
-- **Local Storage:** Room Database (with relations)
-- **Pagination:** Paging 3 (API + Room cache)
-- **Patterns:** Factory Method, Builder Pattern
-- **Testing:** JUnit, Turbine (Flow testing), MockK
+- **Local Storage:** Room Database
+- **Pagination:** Paging 3
+- **Testing:** JUnit, MockK
 
 ---
 
 ## 🏗️ Project Structure
 
 ```plaintext
-com.example.bookexplorer/
-│
-├── data/               # Data sources (API, DB, Paging)
-├── domain/             # Business logic (UseCases, Models, Repositories)
-├── di/                 # Hilt modules for dependencies
-├── presentation/       # UI layer (Compose screens, ViewModels, NavGraph)
-├── common/             # Utilities, constants, patterns 
+com.alpha.books_explorer/ 
+│ 
+├── data/                           # Data Layer (API + DB) 
+│   ├── local/                      # Room database 
+│   │   ├── converters/ 
+│   │   │   ├── Converters.kt 
+│   │   ├── dao/ 
+│   │   │   ├── FavBookDao.kt 
+│   │   │   ├── ReadingList.kt 
+│   │   ├── entities/ 
+│   │   │   ├── BookEntity.kt 
+│   │   │   ├── ReadingListEntity.kt 
+│   │   └── FavBookDatabase.kt 
+│   │ 
+│   ├── paging/  
+│   │   ├── BooksPagingSource.kt 
+│   ├── remote/                     # Retrofit API 
+│   │   ├── BookApiService.kt 
+│   │   └── dto/ 
+│   │       ├── BookSearchResponse.kt 
+│   │ 
+│   ├── repository/                 # Repository implementation 
+│   │   └── BookRepositoryImpl.kt 
+│   │ 
+│   └── mappers/                    # DTO ↔ Entity ↔ Domain 
+│       ├── BookMapper.kt 
+│ 
+├── domain/                         # Domain Layer (business logic) 
+│   ├── model/ 
+│   │   ├── Book.kt 
+│   │ 
+│   ├── repository/                 # Abstract repository interfaces 
+│   │   └── BookRepository.kt 
+│   │ 
+│   └── usecase/                    # Use cases 
+│       ├── GetBooksUseCase.kt 
+│       ├── SearchBooksUseCase.kt 
+│       ├── GetBookDetailsUseCase.kt 
+│       ├── SaveFavoriteBookUseCase.kt 
+│       └── GetFavoriteBooksUseCase.kt 
+│ 
+├── di/                             # Dependency Injection (Hilt) 
+│   ├── LocalDbModule.kt 
+│   ├── NetworkModule.kt 
+│ 
+├── presentation/                   # Presentation Layer 
+│   ├── ui/                         # Compose UI 
+│   │   ├── home/ 
+│   │   │   ├── HomeScreen.kt 
+│   │   │   ├── HomeViewModel.kt 
+│   │   │   └── HomeUiState.kt 
+│   │   ├── search/ 
+│   │   │   ├── SearchScreen.kt 
+│   │   │   ├── SearchViewModel.kt 
+│   │   │   └── SearchUiState.kt 
+│   │   ├── details/ 
+│   │   │   ├── BookDetailScreen.kt 
+│   │   │   ├── BookDetailViewModel.kt 
+│   │   │   └── BookDetailUiState.kt 
+│   │   ├── favorites/ 
+│   │   │   ├── FavoritesScreen.kt 
+│   │   │   ├── FavoritesViewModel.kt 
+│   │   │   └── FavoritesUiState.kt 
+│   │   └── profile/ 
+│   │       ├── ProfileScreen.kt 
+│   │       ├── ProfileViewModel.kt 
+│   │       └── ProfileUiState.kt 
+│   │ 
+│   │ 
+│   └── navigation/ 
+│       └── NavGraph.kt 
+│ 
+├── common/                         # Common utilities & helpers 
+│   ├── constants/ 
+│   │   └── ApiConstants.kt 
+│   ├── utils/ 
+│   │   ├── NetworkResult.kt        # Sealed class for Success/Error/Loading 
+│   │   ├── Extensions.kt           # Common extension functions 
+│   │   └── DispatcherProvider.kt   # For coroutines testability 
+│ 
+├── MainActivity.kt                  # Host Compose + Navigation 
+└── BooksExplorerApplication.kt               # Application class (Hilt)  
 
 ```
 
@@ -51,14 +130,12 @@ com.example.bookexplorer/
 ## 📚 Learning Purpose
 This app was built to cover:
 * Jetpack Compose UI + Navigation
-* RoomDB with relations
-* Coroutines + Flows vs LiveData
+* RoomDB 
+* Coroutines + Flows 
 * Hilt Dependency Injection
 * MVVM + Clean Architecture
 * Retrofit Networking
-* Paging 3 (with RemoteMediator)
-* Unit Testing (DAO, Repository, ViewModel)
-* Factory & Builder Patterns
+* Paging 3
 
 ## 👨‍💻 Author
   **Shubham Gadekar**
