@@ -5,11 +5,18 @@ This project is designed to practice and demonstrate modern Android development 
 
 ---
 ## 📸 Screenshots:
-![Home Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Home.png)
-![Details Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Details.png)
-![Search Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Search.png)
-![Wishlist Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Wishlist.png)
-![Profile Screen](https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Profile.png)
+
+<table>
+  <tr>
+    <td><img alt="Home Screen" src="https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Home.png" height="300"/></td>
+    <td><img alt="Home Screen" src="https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Details.png" height="300"/></td>
+    <td><img alt="Home Screen" src="https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Search.png" height="300"/></td>
+  </tr>
+<tr>
+<td><img alt="Home Screen" src="https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Wishlist.png" height="300"/></td>
+    <td><img alt="Home Screen" src="https://github.com/shubhamgadekar/Books-Library/blob/main/Books-Profile.png" height="300"/></td>
+</tr>
+</table>
 
 ---
 ## ✨ Features
