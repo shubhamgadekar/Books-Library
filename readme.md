@@ -59,3 +59,7 @@ This app was built to cover:
 * Paging 3 (with RemoteMediator)
 * Unit Testing (DAO, Repository, ViewModel)
 * Factory & Builder Patterns
+
+## 👨‍💻 Author
+  **Shubham Gadekar**
+   - GitHub - https://github.com/shubhamgadekar/
