@@ -26,7 +26,7 @@ class BookRepositoryImpl
     ) : BookRepository {
         override fun getBooks(query: String): Flow<List<Book>> =
             flow {
-                val response = api.searchBooks(query)
+                val response = api.searchBooks(query, 0, 10)
                 val books = response.items ?: emptyList()
                 emit(books)
             }

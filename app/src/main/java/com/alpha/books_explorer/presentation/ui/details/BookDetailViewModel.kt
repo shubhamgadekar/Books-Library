@@ -66,6 +66,7 @@ class BookDetailViewModel
         fun fetchBookById(bookId: String) {
             viewModelScope.launch {
                 _bookState.value = BookDetailsUiState(isLoading = true)
+                delay(200)
                 getBookById.invoke(bookId)
                     .catch {
                         _bookState.value = BookDetailsUiState(error = it.message)

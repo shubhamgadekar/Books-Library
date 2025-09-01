@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class SearchScreenViewModel
+open class SearchScreenViewModel
     @Inject
     constructor(
         private val getBooksUseCase: GetBooksUseCase,
@@ -21,9 +21,6 @@ class SearchScreenViewModel
         private val _searchText = MutableSharedFlow<String>()
         val searchText: SharedFlow<String> = _searchText
 
-        //    private val _searchBookList = MutableStateFlow(SearchScreenUiState())
-//    val searchBookList: StateFlow<SearchScreenUiState> = _searchBookList
-//
         private val _searchBookList = MutableStateFlow(SearchScreenUiState())
         val searchBookList: StateFlow<SearchScreenUiState> = _searchBookList
 
@@ -35,11 +32,6 @@ class SearchScreenViewModel
                         _searchBookList.value = SearchScreenUiState(isLoading = true)
                         val result = getBooksUseCase.invokePaging(it)
                         _searchBookList.value = SearchScreenUiState(books = result)
-//                    getBooksUseCase.invokePaging(it)
-//                        .catch { }
-//                        .collect {
-//                            _searchBookList.value = SearchScreenUiState(books = it)
-//                        }
                     }
                 }
             }
