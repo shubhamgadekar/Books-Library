@@ -1,6 +1,7 @@
 name: Android Unit Tests with JaCoCo
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
