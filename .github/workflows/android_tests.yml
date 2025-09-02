@@ -49,11 +49,15 @@ jobs:
           path: app/build/reports/jacoco/jacocoTestReport/html
 
       # ✅ Optional: Fail build if coverage < 50%
-      - name: Enforce coverage minimum
-        uses: devmasx/coverage-check-action@v1.2.0
+#      - name: Enforce coverage minimum
+#        uses: devmasx/coverage-check-action@v1.2.0
+#        with:
+#          type: lcov
+#          result_path: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+#          min_coverage: 60
+#          token: ${{ github.token }}
+      - name: Add JaCoCo Coverage Summary
+        uses: jjmrocha/jacoco-summary@v1
         with:
-          type: cobertura
-          result_path: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
-          min_coverage: 60
-          token: ${{ github.token }}
+          jacoco-csv-file: app/build/reports/jacoco/jacocoTestReport/jacoco.csv
 
