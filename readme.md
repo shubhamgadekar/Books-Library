@@ -8,6 +8,7 @@ This project is designed to practice and demonstrate modern Android development 
 ## ✅ Build & Quality Status
 ![Detekt](https://github.com/shubhamgadekar/Books-Library/actions/workflows/detekt.yml/badge.svg)
 ![Unit Tests & Coverage](https://github.com/shubhamgadekar/Books-Library/actions/workflows/unitTests.yml/badge.svg)
+![Coverage](.github/badges/jacoco.svg)
 
 This repository enforces **static analysis (Detekt)** and **unit test coverage checks** using GitHub Actions.
 
