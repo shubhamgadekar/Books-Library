@@ -119,6 +119,11 @@ detekt {
     toolVersion = "1.23.6"
     config.setFrom("$rootDir/config/detekt/detekt.yml") // optional custom rules
     buildUponDefaultConfig = true
+    reports {
+        html.required.set(true)
+        txt.required.set(true)
+        xml.required.set(true)
+    }
 }
 
 ktlint {

@@ -46,3 +46,5 @@ jobs:
         with:
           path: build/reports/detekt/detekt.xml
           header: "### Detekt Lint Report"
+          recreate: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
