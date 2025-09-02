@@ -59,7 +59,7 @@ jobs:
 
       # 6. Enforce coverage thresholds (fail PR if too low)
       - name: Check coverage
-        uses: devmasx/coverage-check-action@v1
+        uses: devmasx/coverage-check-action@v1.2.0
         with:
           coverage-file: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           min-coverage-overall: 30
