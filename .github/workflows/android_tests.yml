@@ -57,7 +57,7 @@ jobs:
 #          min_coverage: 60
 #          token: ${{ github.token }}
       - name: Add JaCoCo Coverage Summary
-        uses: jjmrocha/jacoco-summary@v1
+        uses: jjmrocha/jacoco-summary@v1.1.1
         with:
           jacoco-csv-file: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.csv
 
