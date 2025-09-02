@@ -52,7 +52,7 @@ jobs:
       - name: Enforce coverage minimum
         uses: devmasx/coverage-check-action@v1.2.0
         with:
-          type: jacoco
+          type: cobertura
           result_path: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           min_coverage: 60
           token: ${{ secrets.GITHUB_TOKEN }}
