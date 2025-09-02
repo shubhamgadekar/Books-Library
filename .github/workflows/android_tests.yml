@@ -55,7 +55,7 @@ jobs:
           type: jacoco
           result_path: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           min_coverage: 60
-          token: ${{ github.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
 #      - name: Add JaCoCo Coverage Summary
 #        uses: jjmrocha/jacoco-summary@v1.1.1
