@@ -1,16 +1,14 @@
-# .github/workflows/codecov.yml
-name: Code Coverage
+name: Generate Jacoco Badge
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]   # ✅ only run on main
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
-  codecov:
+  jacoco-badge:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -21,12 +19,28 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Run tests with coverage
-        run: ./gradlew clean jacocoTestReport
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+      - name: Run tests with coverage
+        run: ./gradlew clean test jacocoTestReport
+
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
         with:
-          files: build/reports/jacoco/test/jacocoTestReport.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
+          generate-coverage-badge: true
+          jacoco-csv-file: app/build/reports/jacoco/test/jacocoTestReport.csv
+          badge-directory: .github/badges
+
+      - name: Upload badge as artifact (optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-badge
+          path: .github/badges/jacoco.svg
+
+      - name: Commit badge to repo
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore: update JaCoCo coverage badge"
+          branch: main
+          file_pattern: .github/badges/jacoco.svg
