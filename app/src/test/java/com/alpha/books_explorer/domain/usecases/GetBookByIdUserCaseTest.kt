@@ -8,7 +8,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.flowOf
 
 class GetBookByIdUserCaseTest {
@@ -26,7 +25,8 @@ class GetBookByIdUserCaseTest {
     @Test
     fun testInvoke() {
         val book = Book(
-            id = "x1", volumeInfo = VolumeInfo(
+            id = "x1",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,

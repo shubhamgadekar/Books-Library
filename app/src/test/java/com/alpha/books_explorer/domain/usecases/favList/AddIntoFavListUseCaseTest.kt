@@ -4,7 +4,6 @@ import com.alpha.books_explorer.domain.model.Book
 import com.alpha.books_explorer.domain.model.VolumeInfo
 import com.alpha.books_explorer.domain.repository.BookRepository
 import com.alpha.books_explorer.domain.usecase.FavList.AddIntoFavListUseCase
-import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.mockk
 import org.junit.Before
@@ -26,7 +25,8 @@ class AddIntoFavListUseCaseTest {
     @Test
     fun testInvoke() = runTest {
         val book = Book(
-            id = "x1", volumeInfo = VolumeInfo(
+            id = "x1",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,

@@ -14,24 +14,24 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class WishlistViewModel
-    @Inject
-    constructor(
-        private val getFavBooksUseCase: FetchFavListUseCase,
-    ) : ViewModel() {
-        private val _uiState = MutableStateFlow(HomeUiState())
-        val uiState: StateFlow<HomeUiState> = _uiState
+@Inject
+constructor(
+    private val getFavBooksUseCase: FetchFavListUseCase,
+) : ViewModel() {
+    private val _uiState = MutableStateFlow(HomeUiState())
+    val uiState: StateFlow<HomeUiState> = _uiState
 
-        fun loadBooks() {
-            viewModelScope.launch {
-                _uiState.value = HomeUiState(isLoading = true)
-                delay(200)
-                getFavBooksUseCase.invoke()
-                    .catch { e ->
-                        _uiState.value = HomeUiState(error = e.message ?: "Unknown error")
-                    }
-                    .collect { books ->
-                        _uiState.value = HomeUiState(books = books)
-                    }
-            }
+    fun loadBooks() {
+        viewModelScope.launch {
+            _uiState.value = HomeUiState(isLoading = true)
+            delay(200)
+            getFavBooksUseCase.invoke()
+                .catch { e ->
+                    _uiState.value = HomeUiState(error = e.message ?: "Unknown error")
+                }
+                .collect { books ->
+                    _uiState.value = HomeUiState(books = books)
+                }
         }
     }
+}

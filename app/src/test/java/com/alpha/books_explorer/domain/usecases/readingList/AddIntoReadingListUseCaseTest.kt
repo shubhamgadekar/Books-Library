@@ -25,7 +25,8 @@ class AddIntoReadingListUseCaseTest {
     @Test
     fun testInvoke() = runTest {
         val book = Book(
-            id = "x1", volumeInfo = VolumeInfo(
+            id = "x1",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,

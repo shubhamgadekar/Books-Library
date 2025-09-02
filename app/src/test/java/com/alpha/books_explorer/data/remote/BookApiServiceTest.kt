@@ -1,6 +1,5 @@
 package com.alpha.books_explorer.data.remote
 
-import androidx.room.util.query
 import com.google.common.truth.Truth.assertThat
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -15,7 +14,8 @@ class BookApiServiceTest {
     private lateinit var server: MockWebServer
     private lateinit var api: BookApiService
 
-    @Before fun setup() {
+    @Before
+    fun setup() {
         server = MockWebServer()
         api = Retrofit.Builder()
             .baseUrl(server.url("/"))
@@ -24,7 +24,10 @@ class BookApiServiceTest {
             .create(BookApiService::class.java)
     }
 
-    @After fun tearDown() { server.shutdown() }
+    @After
+    fun tearDown() {
+        server.shutdown()
+    }
 
     @Test
     fun `searchBooks returns items`() = kotlinx.coroutines.test.runTest {

@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 
 class RemoveFromFavListUseCaseTest {
 
-
     private lateinit var bookRepository: BookRepository
 
     private lateinit var removeFromFavListUseCase: RemoveFromFavListUseCase
@@ -26,7 +25,8 @@ class RemoveFromFavListUseCaseTest {
     @Test
     fun testInvoke() = runTest {
         val book = Book(
-            id = "x1", volumeInfo = VolumeInfo(
+            id = "x1",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,
@@ -38,7 +38,6 @@ class RemoveFromFavListUseCaseTest {
         )
 
         coJustRun { bookRepository.deleteFromFavListBooks(book) }
-
         removeFromFavListUseCase.invoke(book)
     }
 }

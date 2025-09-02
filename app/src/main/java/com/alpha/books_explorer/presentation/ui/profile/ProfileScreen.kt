@@ -60,22 +60,20 @@ fun ProfileScreen(
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                colors =
-                    TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    ),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
             )
         },
     ) { paddingValues ->
         Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues) // Apply padding from Scaffold
-                    .padding(horizontal = 16.dp) // Horizontal padding for content
-                    .verticalScroll(rememberScrollState()),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues) // Apply padding from Scaffold
+                .padding(horizontal = 16.dp) // Horizontal padding for content
+                .verticalScroll(rememberScrollState()),
             // Make content scrollable if it gets long
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -138,11 +136,10 @@ fun ProfileScreen(
 
             // Example: Logout Button
             Button(
-                onClick = { /* TODO: Implement Logout Logic */ },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
             ) {
                 Text("Logout")
             }
@@ -156,7 +153,11 @@ fun ProfileInfoItem(
     value: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelMedium,
@@ -178,11 +179,10 @@ fun ProfileNavigationItem(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onClick)
-                .padding(vertical = 16.dp, horizontal = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 16.dp, horizontal = 8.dp),
         // Increased vertical padding
         verticalAlignment = Alignment.CenterVertically,
     ) {

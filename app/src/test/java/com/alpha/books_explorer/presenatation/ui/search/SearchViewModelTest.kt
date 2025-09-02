@@ -1,6 +1,5 @@
 package com.alpha.books_explorer.presenatation.ui.search
 
-
 import androidx.paging.PagingData
 import com.alpha.books_explorer.MainDispatcherRule
 import com.alpha.books_explorer.domain.model.Book
@@ -76,7 +75,6 @@ class SearchViewModelTest {
 
         assert(vm.searchBookList.value.books?.count() == (fakeFlow.count()))
     }
-
 
     @Test
     fun `searchBooks exposes paging data2`() = runTest {

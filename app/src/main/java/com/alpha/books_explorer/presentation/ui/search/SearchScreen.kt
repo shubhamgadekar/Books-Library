@@ -49,11 +49,10 @@ fun SearchScreen(
         },
     ) { paddingValues ->
         Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .padding(16.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TextField(
@@ -103,10 +102,9 @@ fun SearchBookList(
 ) {
     if (books.itemCount > 0) {
         LazyColumn(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
         ) {
             items(books.itemCount) { book ->
                 if (books[book] != null) {

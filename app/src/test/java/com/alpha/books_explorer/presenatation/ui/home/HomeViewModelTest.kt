@@ -53,7 +53,8 @@ class HomeViewModelTest {
     @Test
     fun `test home view model valid output`() = runTest {
         val book1 = Book(
-            id = "x1", volumeInfo = VolumeInfo(
+            id = "x1",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,
@@ -65,7 +66,8 @@ class HomeViewModelTest {
         )
 
         val book2 = Book(
-            id = "x2", volumeInfo = VolumeInfo(
+            id = "x2",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,

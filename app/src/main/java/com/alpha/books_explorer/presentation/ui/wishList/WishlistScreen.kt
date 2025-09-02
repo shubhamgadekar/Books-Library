@@ -63,7 +63,8 @@ fun WishlistScreen(
                     BookList(
                         books = uiState.books,
                         navController,
-                        "You do not have anything in your wish list. \nYou can add into reading list from Search/Home screen.",
+                        "You do not have anything in your wish list. " +
+                            "\nYou can add into reading list from Search/Home screen.",
                     )
                 }
             }

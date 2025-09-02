@@ -32,10 +32,9 @@ fun BookList(
 ) {
     if (books.isNotEmpty()) {
         LazyColumn(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp),
         ) {
             items(books.size) { book ->
                 BookCard(book = books[book], navController)
@@ -55,13 +54,12 @@ fun BookCard(
     navController: NavController,
 ) {
     Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-                .clickable {
-                    navController.navigate("bookDetailsScreen/${book.id}")
-                },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable {
+                navController.navigate("bookDetailsScreen/${book.id}")
+            },
     ) {
         Image(
             painter = rememberAsyncImagePainter(book.volumeInfo?.imageLinks?.thumbnail),

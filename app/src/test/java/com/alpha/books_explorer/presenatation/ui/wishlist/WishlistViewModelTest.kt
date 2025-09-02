@@ -35,7 +35,6 @@ class WishlistViewModelTest {
 
     @Test
     fun testLoadBooks() = runTest {
-
         coEvery { getFavBooksUseCase.invoke() } returns flowOf(listOf<Book>())
 
         wishlistViewModel.loadBooks()
@@ -49,7 +48,8 @@ class WishlistViewModelTest {
     @Test
     fun testLoadBooksWithData() = runTest {
         val book1 = Book(
-            id = "x1", volumeInfo = VolumeInfo(
+            id = "x1",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,
@@ -61,7 +61,8 @@ class WishlistViewModelTest {
         )
 
         val book2 = Book(
-            id = "x2", volumeInfo = VolumeInfo(
+            id = "x2",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,
@@ -81,6 +82,5 @@ class WishlistViewModelTest {
             assertEquals(HomeUiState(isLoading = false, books = listOf(book1, book2)), awaitItem())
             cancelAndIgnoreRemainingEvents()
         }
-
     }
 }

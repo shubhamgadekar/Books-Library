@@ -3,7 +3,6 @@ package com.alpha.books_explorer.domain.usecases.favList
 import com.alpha.books_explorer.domain.model.Book
 import com.alpha.books_explorer.domain.model.VolumeInfo
 import com.alpha.books_explorer.domain.repository.BookRepository
-import com.alpha.books_explorer.domain.usecase.FavList.FetchFavListUseCase
 import com.alpha.books_explorer.domain.usecase.FavList.IsBookPresentInFavListUserCase
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -27,7 +26,8 @@ class IsBookPresentInFavListUserCaseTest {
     @Test
     fun testInvoke() = runTest {
         val book = Book(
-            id = "x1", volumeInfo = VolumeInfo(
+            id = "x1",
+            volumeInfo = VolumeInfo(
                 title = "Title",
                 authors = listOf("John"),
                 description = null,

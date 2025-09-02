@@ -1,7 +1,6 @@
 package com.alpha.books_explorer.presentation.ui.home
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -28,7 +27,6 @@ import com.alpha.books_explorer.presentation.ui.BookList
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navController: NavController,
-    innerPadding: PaddingValues,
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
@@ -69,7 +67,8 @@ fun HomeScreen(
                     BookList(
                         books = uiState.books,
                         navController,
-                        emptyMessage = "You do not have anything in your reading list. \nYou can add into reading list from search screen.",
+                        emptyMessage = "You do not have anything in your reading list. " +
+                            "\nYou can add into reading list from search screen.",
                     )
                 }
             }

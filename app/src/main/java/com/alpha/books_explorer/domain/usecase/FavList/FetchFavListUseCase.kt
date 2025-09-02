@@ -6,11 +6,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 class FetchFavListUseCase
-    @Inject
-    constructor(
-        private val repository: BookRepository,
-    ) {
-        fun invoke(): Flow<List<Book>> {
-            return repository.getFavListBooks()
-        }
+@Inject constructor(
+    private val repository: BookRepository,
+) {
+    fun invoke(): Flow<List<Book>> {
+        return repository.getFavListBooks()
     }
+}

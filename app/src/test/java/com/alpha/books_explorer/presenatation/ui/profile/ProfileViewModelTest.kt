@@ -1,7 +1,6 @@
 package com.alpha.books_explorer.presenatation.ui.profile
 
 import app.cash.turbine.test
-import com.alpha.books_explorer.presentation.ui.details.BookDetailsUiState
 import com.alpha.books_explorer.presentation.ui.profile.ProfileViewModel
 import com.alpha.books_explorer.presentation.ui.profile.UserProfile
 import org.junit.Test

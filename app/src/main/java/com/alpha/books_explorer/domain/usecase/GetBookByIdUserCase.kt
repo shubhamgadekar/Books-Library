@@ -6,11 +6,11 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 class GetBookByIdUserCase
-    @Inject
-    constructor(
-        private val repository: BookRepository,
-    ) {
-        fun invoke(id: String): Flow<Book> {
-            return repository.getBookById(id)
-        }
+@Inject
+constructor(
+    private val repository: BookRepository,
+) {
+    fun invoke(id: String): Flow<Book> {
+        return repository.getBookById(id)
     }
+}

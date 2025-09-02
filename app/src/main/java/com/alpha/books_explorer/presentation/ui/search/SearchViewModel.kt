@@ -14,36 +14,36 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 open class SearchViewModel
-    @Inject
-    constructor(
-        private val getBooksUseCase: GetBooksUseCase,
-    ) : ViewModel() {
-        private val _searchText = MutableSharedFlow<String>()
-        val searchText: SharedFlow<String> = _searchText
+@Inject
+constructor(
+    private val getBooksUseCase: GetBooksUseCase,
+) : ViewModel() {
+    private val _searchText = MutableSharedFlow<String>()
+    val searchText: SharedFlow<String> = _searchText
 
-        private val _searchBookList = MutableStateFlow(SearchUiState())
-        val searchBookList: StateFlow<SearchUiState> = _searchBookList
+    private val _searchBookList = MutableStateFlow(SearchUiState())
+    val searchBookList: StateFlow<SearchUiState> = _searchBookList
 
-        init {
-            resetScreen()
-            viewModelScope.launch {
-                _searchText.debounce { 300 }.collect {
-                    if (it.isNotEmpty()) {
-                        _searchBookList.value = SearchUiState(isLoading = true)
-                        val result = getBooksUseCase.invokePaging(it)
-                        _searchBookList.value = SearchUiState(books = result)
-                    }
+    init {
+        resetScreen()
+        viewModelScope.launch {
+            _searchText.debounce { 300 }.collect {
+                if (it.isNotEmpty()) {
+                    _searchBookList.value = SearchUiState(isLoading = true)
+                    val result = getBooksUseCase.invokePaging(it)
+                    _searchBookList.value = SearchUiState(books = result)
                 }
             }
         }
+    }
 
-        fun resetScreen() {
-            _searchBookList.value = SearchUiState()
-        }
+    fun resetScreen() {
+        _searchBookList.value = SearchUiState()
+    }
 
-        fun updateSearchText(text: String) {
-            viewModelScope.launch {
-                _searchText.emit(text)
-            }
+    fun updateSearchText(text: String) {
+        viewModelScope.launch {
+            _searchText.emit(text)
         }
     }
+}

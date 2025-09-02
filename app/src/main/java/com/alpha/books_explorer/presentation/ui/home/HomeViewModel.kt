@@ -13,28 +13,28 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeViewModel
-    @Inject
-    constructor(
-        private val fetchReadingListUseCase: FetchReadingListUseCase,
-    ) : ViewModel() {
-        private val _uiState = MutableStateFlow(HomeUiState())
-        val uiState: StateFlow<HomeUiState> = _uiState
+@Inject
+constructor(
+    private val fetchReadingListUseCase: FetchReadingListUseCase,
+) : ViewModel() {
+    private val _uiState = MutableStateFlow(HomeUiState())
+    val uiState: StateFlow<HomeUiState> = _uiState
 
-        init {
+    init {
 //        loadBooks("android")
-        }
+    }
 
-        fun loadBooks() {
-            viewModelScope.launch {
-                _uiState.value = HomeUiState(isLoading = true)
-                delay(200)
-                fetchReadingListUseCase.invoke()
-                    .catch { e ->
-                        _uiState.value = HomeUiState(error = e.message ?: "Unknown error")
-                    }
-                    .collect { books ->
-                        _uiState.value = HomeUiState(books = books)
-                    }
-            }
+    fun loadBooks() {
+        viewModelScope.launch {
+            _uiState.value = HomeUiState(isLoading = true)
+            delay(200)
+            fetchReadingListUseCase.invoke()
+                .catch { e ->
+                    _uiState.value = HomeUiState(error = e.message ?: "Unknown error")
+                }
+                .collect { books ->
+                    _uiState.value = HomeUiState(books = books)
+                }
         }
     }
+}

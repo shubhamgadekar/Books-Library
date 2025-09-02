@@ -7,14 +7,11 @@ import com.alpha.books_explorer.data.remote.dto.BookSearchResponse
 import com.alpha.books_explorer.domain.model.Book
 import com.alpha.books_explorer.domain.model.VolumeInfo
 import com.google.common.truth.Truth.assertThat
-import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.just
 import io.mockk.mockk
+import org.junit.Test
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.Test
-import kotlinx.coroutines.test.TestScope
 
 class BookRepositoryImplTest {
 
@@ -76,7 +73,6 @@ class BookRepositoryImplTest {
                     imageLinks = null
                 )
             )
-
 
         val repo = BookRepositoryImpl(api, localDao, readingListDao)
         val first = repo.getBookById("x1")
