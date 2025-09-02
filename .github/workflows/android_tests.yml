@@ -49,6 +49,5 @@ jobs:
         uses: devmasx/coverage-check-action@v1.2.0
         with:
           type: jacoco
-          path: app/build/reports/jacoco/jacocoTestReport/xml/report.xml
-          min-coverage-overall: 50
-          min-coverage-changed-files: 60
+          result_path: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          min_coverage: 60
