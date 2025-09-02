@@ -8,6 +8,7 @@ This project is designed to practice and demonstrate modern Android development 
 ## ✅ Build & Quality Status
 ![Detekt](https://github.com/shubhamgadekar/Books-Library/actions/workflows/detekt.yml/badge.svg)
 ![Unit Tests & Coverage](https://github.com/shubhamgadekar/Books-Library/actions/workflows/unitTests.yml/badge.svg)
+[![codecov](https://codecov.io/gh/shubhamgadekar/Books-Library/branch/main/graph/badge.svg)](https://codecov.io/gh/shubhamgadekar/Books-Library)
 
 This repository enforces **static analysis (Detekt)** and **unit test coverage checks** using GitHub Actions.
 
