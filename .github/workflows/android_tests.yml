@@ -55,5 +55,5 @@ jobs:
           type: cobertura
           result_path: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           min_coverage: 60
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
 
