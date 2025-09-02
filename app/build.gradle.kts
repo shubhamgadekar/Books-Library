@@ -191,42 +191,31 @@ dependencies {
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.turbine)
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.6")
+    detektPlugins(libs.detekt.formatting)
 
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.5")
-
-    // Coroutines & Flow testing
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
 
     // Paging testing helpers
-    testImplementation("androidx.paging:paging-common:3.3.0")
-
-    // Turbine for Flow assertions
-    testImplementation("app.cash.turbine:turbine:1.0.0")
+    testImplementation(libs.androidx.paging.common)
 
     // Mocking
-    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation(libs.mockk)
 
     // Retrofit + MockWebServer
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
-    testImplementation("com.squareup.retrofit2:retrofit:2.11.0")
-    testImplementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.retrofit)
+    testImplementation(libs.converter.gson)
 
     // LiveData/arch rules if you still use some LiveData
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
-
-
-    // --- Instrumented (androidTest) ---
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    testImplementation(libs.androidx.core.testing)
 
     // Room testing helpers
-    androidTestImplementation("androidx.room:room-testing:2.6.1")
-    androidTestImplementation("androidx.test:core-ktx:1.5.0")
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.core.ktx)
 
     // Compose UI tests (if you’re testing composables)
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.7")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.7")
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.test.manifest)
     testImplementation(kotlin("test"))
 }
