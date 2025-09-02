@@ -20,6 +20,6 @@ interface BookApiService {
     @GET("volumes/{bookId}")
     suspend fun getBookById(
         @Path("bookId") bookId: String,
-        @Query("key") key: String = "AIzaSyA1CyG-p6tjzJ74P_mHjVoYJ9nxeT6GGj8",
+        @Query("key") key: String = "",
     ): Book
 }
