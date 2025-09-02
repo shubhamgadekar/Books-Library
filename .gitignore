@@ -28,7 +28,7 @@ out/
 # Gradle files
 .gradle/
 build/
-!gradle/wrapper/gradle-wrapper.jar
+#!gradle/wrapper/gradle-wrapper.jar
 
 # Gradle caches
 **/build/
@@ -87,8 +87,8 @@ coverage/
 /.gradle/
 
 # Ignore Gradle Wrapper files
-/gradle/wrapper/gradle-wrapper.properties
-/gradle/wrapper/gradle-wrapper.jar
+#/gradle/wrapper/gradle-wrapper.properties
+#/gradle/wrapper/gradle-wrapper.jar
 
 # Ignore IDE-specific files
 /*.iml

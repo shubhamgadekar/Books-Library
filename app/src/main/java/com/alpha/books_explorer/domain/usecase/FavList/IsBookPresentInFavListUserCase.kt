@@ -6,11 +6,11 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 
 class IsBookPresentInFavListUserCase
-    @Inject
-    constructor(
-        private val localDbRepository: BookRepository,
-    ) {
-        fun invoke(book: Book): Flow<Boolean> {
-            return localDbRepository.isBookPresentInFavList(book)
-        }
+@Inject
+constructor(
+    private val localDbRepository: BookRepository,
+) {
+    fun invoke(book: Book): Flow<Boolean> {
+        return localDbRepository.isBookPresentInFavList(book)
     }
+}

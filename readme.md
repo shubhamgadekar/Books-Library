@@ -4,7 +4,16 @@ An Android app built with **Jetpack Compose** that lets you explore books using 
 This project is designed to practice and demonstrate modern Android development concepts like **MVVM, Clean Architecture, Hilt, Flows, RoomDB, Paging 3, Navigation, and Unit Testing**.
 
 ---
-## 📸 Screenshots:
+
+## ✅ Build & Quality Status
+![Detekt](https://github.com/shubhamgadekar/Books-Library/actions/workflows/detekt.yml/badge.svg)
+![Unit Tests & Coverage](https://github.com/shubhamgadekar/Books-Library/actions/workflows/unitTests.yml/badge.svg)
+
+This repository enforces **static analysis (Detekt)** and **unit test coverage checks** using GitHub Actions.
+
+---
+
+## 📸 Screenshots
 
 <table>
   <tr>
@@ -36,7 +45,8 @@ This project is designed to practice and demonstrate modern Android development 
 - **Networking:** Retrofit + OkHttp
 - **Local Storage:** Room Database
 - **Pagination:** Paging 3
-- **Testing:** JUnit, MockK
+- **Testing:** JUnit, MockK, Turbine
+- **Static Analysis:** Detekt
 
 ---
 
@@ -143,7 +153,11 @@ This app was built to cover:
 * MVVM + Clean Architecture
 * Retrofit Networking
 * Paging 3
+* Writing Unit Tests + enforcing coverage thresholds
+* Enforcing code quality with Detekt
+
+---
 
 ## 👨‍💻 Author
-  **Shubham Gadekar**
-   - GitHub - https://github.com/shubhamgadekar/
+**Shubham Gadekar**
+- GitHub: [shubhamgadekar](https://github.com/shubhamgadekar)  

@@ -1,7 +1,9 @@
 package com.alpha.books_explorer.presentation.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -17,9 +19,9 @@ import kotlin.uuid.ExperimentalUuidApi
 fun MyAppNavHost(innerPadding: PaddingValues) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "home", modifier = Modifier.padding(innerPadding)) {
         composable("home") {
-            HomeScreen(navController = navController, innerPadding = innerPadding)
+            HomeScreen(navController = navController)
         }
         composable("search") {
             SearchScreen(navController = navController)

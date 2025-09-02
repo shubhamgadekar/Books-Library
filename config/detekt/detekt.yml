@@ -23,12 +23,34 @@ style:
     active: true
   MaxLineLength:
     active: true
-    maxLineLength: 120
+    maxLineLength: 150
 
 complexity:
+  LongMethod:
+    active: true
+    threshold: 150
   TooManyFunctions:
     active: false
+  LongParameterList:
+    active: true
+    functionThreshold: 10
+    constructorThreshold: 10
+#  FunctionLength:
+#    active: true
+#    max: 120
 
 performance:
   SpreadOperator:
     active: true
+
+formatting:
+  ImportOrdering:
+    active: false
+  PackageName:
+    active: false
+
+naming:
+  FunctionNaming:
+    active: false
+  PackageNaming:
+    active: false

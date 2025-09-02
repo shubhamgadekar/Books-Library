@@ -40,7 +40,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -95,18 +94,17 @@ fun BookDetailScreen(
                 actions = {
                     book.book.let { currentBook ->
                         IconButton(onClick = {
-                            val sendIntent =
-                                Intent().apply {
-                                    action = Intent.ACTION_SEND
-                                    putExtra(
-                                        Intent.EXTRA_TEXT,
-                                        "Check out this book: ${currentBook?.volumeInfo?.title} by ${
+                            val sendIntent = Intent().apply {
+                                action = Intent.ACTION_SEND
+                                putExtra(
+                                    Intent.EXTRA_TEXT,
+                                    "Check out this book: ${currentBook?.volumeInfo?.title} by ${
 //                                        currentBook?.volumeInfo?.authors
-                                            currentBook?.volumeInfo?.authors?.joinToString(", ")
-                                        }\n\n${currentBook?.volumeInfo?.description?.take(100)}...",
-                                    )
-                                    type = "text/plain"
-                                }
+                                        currentBook?.volumeInfo?.authors?.joinToString(", ")
+                                    }\n\n${currentBook?.volumeInfo?.description?.take(100)}...",
+                                )
+                                type = "text/plain"
+                            }
                             val shareIntent = Intent.createChooser(sendIntent, "Share Book Via")
                             context.startActivity(shareIntent)
                         }) {
@@ -114,13 +112,12 @@ fun BookDetailScreen(
                         }
                     }
                 },
-                colors =
-                    TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    ),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
             )
         },
     ) { paddingValues ->
@@ -173,11 +170,10 @@ fun BookDetailsContent(
     val isItemInReadinglist = viewModel.checkReadinglistItem.collectAsState().value
 
     Column(
-        modifier =
-            modifier
-                .fillMaxWidth() // Changed from fillMaxSize to allow padding from Scaffold
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
+        modifier = modifier
+            .fillMaxWidth() // Changed from fillMaxSize to allow padding from Scaffold
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
     ) {
         // Top section with Thumbnail and core info
         Row(
@@ -187,24 +183,22 @@ fun BookDetailsContent(
         ) {
             // Book Thumbnail
             Image(
-                painter =
-                    if (book.volumeInfo?.imageLinks?.thumbnail != null) {
-                        rememberAsyncImagePainter(
-                            model = book.volumeInfo?.imageLinks?.thumbnail,
-                            // It's good practice to provide placeholders and error drawables for network images
-                            placeholder = painterResource(id = R.drawable.ic_launcher_background),
-                            error = painterResource(id = R.drawable.ic_launcher_background),
-                        )
-                    } else {
-                        // Fallback for when thumbnail is null
-                        painterResource(id = R.drawable.ic_launcher_background)
-                    },
+                painter = if (book.volumeInfo?.imageLinks?.thumbnail != null) {
+                    rememberAsyncImagePainter(
+                        model = book.volumeInfo?.imageLinks?.thumbnail,
+                        // It's good practice to provide placeholders and error drawables for network images
+                        placeholder = painterResource(id = R.drawable.ic_launcher_background),
+                        error = painterResource(id = R.drawable.ic_launcher_background),
+                    )
+                } else {
+                    // Fallback for when thumbnail is null
+                    painterResource(id = R.drawable.ic_launcher_background)
+                },
                 contentDescription = book.volumeInfo?.title,
-                modifier =
-                    Modifier
-                        .size(width = 130.dp, height = 190.dp) // Slightly larger thumbnail
-                        .clip(RoundedCornerShape(8.dp)) // Softer corners
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                modifier = Modifier
+                    .size(width = 130.dp, height = 190.dp) // Slightly larger thumbnail
+                    .clip(RoundedCornerShape(8.dp)) // Softer corners
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 // Placeholder bg
                 contentScale = ContentScale.Crop, // Crop to fill bounds
             )
@@ -258,10 +252,6 @@ fun BookDetailsContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End), // Align to end
         ) {
-//            Button(onClick = { /* TODO: Implement Wishlist Action */ }) {
-//                Text("Add to Wishlist")
-//            }
-
             FavoriteTextToggleButton(
                 isFavorite = isItemInWishlist,
                 onFavoriteChanged = { isNowFavorite ->

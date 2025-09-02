@@ -37,49 +37,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-//
-// @OptIn(ExperimentalMaterial3Api::class)
-// @Composable
-// fun ProfileScreen(navController: NavController) {
-//    Scaffold(
-//        topBar = {
-//            TopAppBar(
-//                title = { Text("My Profile") },
-//                navigationIcon = {
-//                    IconButton(onClick = { navController.popBackStack() }) {
-//                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-//                    }
-//                }
-//            )
-//        }
-//    ) { paddingValues ->
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(paddingValues)
-//                .padding(16.dp),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center
-//        ) {
-//            Icon(
-//                imageVector = Icons.Filled.Person,
-//                contentDescription = "Profile Icon",
-//                modifier = Modifier.size(120.dp),
-//                tint = MaterialTheme.colorScheme.primary
-//            )
-//            Spacer(modifier = Modifier.height(16.dp))
-//            Text(
-//                text = "User Name", // Replace with actual user data
-//                style = MaterialTheme.typography.headlineSmall
-//            )
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "user.email@example.com", // Replace with actual user data
-//                style = MaterialTheme.typography.bodyLarge
-//            )
-//        }
-//    }
-// }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -103,22 +60,20 @@ fun ProfileScreen(
                         Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
-                colors =
-                    TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    ),
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                ),
             )
         },
     ) { paddingValues ->
         Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues) // Apply padding from Scaffold
-                    .padding(horizontal = 16.dp) // Horizontal padding for content
-                    .verticalScroll(rememberScrollState()),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues) // Apply padding from Scaffold
+                .padding(horizontal = 16.dp) // Horizontal padding for content
+                .verticalScroll(rememberScrollState()),
             // Make content scrollable if it gets long
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -181,11 +136,10 @@ fun ProfileScreen(
 
             // Example: Logout Button
             Button(
-                onClick = { /* TODO: Implement Logout Logic */ },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
             ) {
                 Text("Logout")
             }
@@ -199,7 +153,11 @@ fun ProfileInfoItem(
     value: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
         Text(
             text = label,
             style = MaterialTheme.typography.labelMedium,
@@ -221,11 +179,10 @@ fun ProfileNavigationItem(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .clickable(onClick = onClick)
-                .padding(vertical = 16.dp, horizontal = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 16.dp, horizontal = 8.dp),
         // Increased vertical padding
         verticalAlignment = Alignment.CenterVertically,
     ) {
