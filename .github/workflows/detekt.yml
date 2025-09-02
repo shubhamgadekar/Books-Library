@@ -38,11 +38,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: detekt-report
-          path: build/reports/detekt.html
+          path: build/reports/detekt/detekt.html
 
       - name: Comment Detekt issues on PR
         if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          path: build/reports/detekt.xml
+          path: build/reports/detekt/detekt.xml
           header: "### Detekt Lint Report"
