@@ -2,8 +2,6 @@ name: Generate Jacoco Badge
 
 on:
   push:
-    branches: [ main ]   # ✅ only run on main
-  pull_request:
     branches: [ main ]
 
 permissions:
@@ -49,5 +47,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore: update JaCoCo coverage badge"
-          branch: feature/code-coverage-check
+          branch: main
           file_pattern: .github/badges/jacoco.svg
