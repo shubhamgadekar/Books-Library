@@ -1,4 +1,4 @@
-name: Detekt Lint
+name: Detekt Check
 
 on:
   pull_request:
@@ -46,5 +46,14 @@ jobs:
         with:
           path: app/build/reports/detekt/detekt.xml
           header: "### Detekt Lint Report"
+          recreate: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Post success message if no Detekt issues
+        if: github.event_name == 'pull_request' && !failure()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: "### Detekt Lint Report"
+          message: "No Detekt issues found. 🎉"
           recreate: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

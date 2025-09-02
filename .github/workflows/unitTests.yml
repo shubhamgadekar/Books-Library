@@ -1,4 +1,4 @@
-name: Android Unit Tests with JaCoCo
+name: Unit Tests Coverage
 
 on:
   push:
