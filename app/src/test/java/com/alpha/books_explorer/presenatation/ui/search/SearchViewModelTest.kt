@@ -7,7 +7,7 @@ import com.alpha.books_explorer.domain.model.Book
 import com.alpha.books_explorer.domain.model.VolumeInfo
 import com.alpha.books_explorer.domain.repository.BookRepository
 import com.alpha.books_explorer.domain.usecase.GetBooksUseCase
-import com.alpha.books_explorer.presentation.ui.search.SearchScreenViewModel
+import com.alpha.books_explorer.presentation.ui.search.SearchViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.junit.Before
@@ -66,7 +66,7 @@ class SearchViewModelTest {
 
         coEvery { getBooksUseCase.invokePaging("query") } returns fakeFlow
 
-        val vm = SearchScreenViewModel(
+        val vm = SearchViewModel(
             getBooksUseCase = getBooksUseCase
         )
 
@@ -88,7 +88,7 @@ class SearchViewModelTest {
 
         coEvery { getBooksUseCase.invokePaging("") } returns fakeFlow
 
-        val vm = SearchScreenViewModel(
+        val vm = SearchViewModel(
             getBooksUseCase = getBooksUseCase
         )
 

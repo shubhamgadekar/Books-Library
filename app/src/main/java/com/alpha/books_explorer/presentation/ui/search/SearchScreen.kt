@@ -34,7 +34,7 @@ import com.alpha.books_explorer.presentation.ui.BookCard
 @Composable
 fun SearchScreen(
     navController: NavController,
-    viewModel: SearchScreenViewModel = hiltViewModel(),
+    viewModel: SearchViewModel = hiltViewModel(),
 ) {
     var searchQuery = viewModel.searchText.collectAsState("").value
     var searchUiState = viewModel.searchBookList.collectAsState().value

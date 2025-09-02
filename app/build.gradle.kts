@@ -73,15 +73,6 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         csv.required.set(true)
     }
 
-    val fileFilter = listOf(
-        "**/R.class",
-        "**/R$*.class",
-        "**/BuildConfig.*",
-        "**/Manifest*.*",
-        "**/*Test*.*",
-        "android/**/*.*"
-    )
-
     val debugTree = fileTree("${project.buildDir}/tmp/kotlin-classes/debug") {
         include("**/com/alpha/**")
         exclude(
@@ -91,20 +82,31 @@ tasks.register<JacocoReport>("jacocoTestReport") {
             "**/Manifest*.*",
             "**/*Test*.*",
             "android/**/*.*",
-            "**/com/alpha/books_explorer/presentation/ui/details/BookDetailScreenKt*.*",
-            "**/com/alpha/books_explorer/presentation/ui/home/HomeScreenKt*.*",
-            "**/com/alpha/books_explorer/presentation/ui/profile/ProfileScreenKt*.*",
-            "**/com/alpha/books_explorer/presentation/ui/search/SearchScreenKt*.*",
-            "**/com/alpha/books_explorer/presentation/ui/withList/WishlistScreenKt*.*",
             "**/com/alpha/books_explorer/presentation/ui/CommonUiKt*.*",
             "**/com/alpha/books_explorer/presentation/ui/theme/**/*.*",
+
+            "**/com/alpha/books_explorer/di/**/*.*",
+            "**/com/alpha/books_explorer/data/**/*.*",
+            "**/com/alpha/books_explorer/presentation/navigation/**/*.*",
+
+            "**/com/alpha/books_explorer/presentation/ui/search/SearchScreen*.*",
+            "**/presentation/ui/search/ComposableSingletons\$SearchScreen*.*",
+            "**/com/alpha/books_explorer/presentation/ui/profile/ProfileScreen*.*",
+            "**/presentation/ui/profile/ComposableSingletons\$ProfileScreen*.*",
+            "**/com/alpha/books_explorer/presentation/ui/home/HomeScreen*.*",
+            "**/presentation/ui/home/ComposableSingletons\$HomeScreen*.*",
+            "**/com/alpha/books_explorer/presentation/ui/wishList/WishlistScreen*.*",
+            "**/presentation/ui/wishList/ComposableSingletons\$WishlistScreen*.*",
+            "**/com/alpha/books_explorer/presentation/ui/details/BookDetailScreen*.*",
+            "**/presentation/ui/details/ComposableSingletons\$BookDetailScreen*.*",
+
+            "**/BooksExplorerApplication*.*",
+            "**/MainActivity*.*",
+            "**/ComposableSingletons\$MainActivity*.*",
         )
     }
 
-    val mainSrc = "${project.projectDir}/src/main/java"
-
     sourceDirectories.setFrom(files("src/main/java", "src/main/kotlin"))
-//    sourceDirectories.setFrom(files(mainSrc))
     classDirectories.setFrom(files(debugTree))
     executionData.setFrom(fileTree(project.buildDir) {
         include(
