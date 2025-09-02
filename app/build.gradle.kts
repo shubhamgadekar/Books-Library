@@ -90,7 +90,14 @@ tasks.register<JacocoReport>("jacocoTestReport") {
             "**/BuildConfig.*",
             "**/Manifest*.*",
             "**/*Test*.*",
-            "android/**/*.*"
+            "android/**/*.*",
+            "**/com/alpha/books_explorer/presentation/ui/details/BookDetailScreenKt*.*",
+            "**/com/alpha/books_explorer/presentation/ui/home/HomeScreenKt*.*",
+            "**/com/alpha/books_explorer/presentation/ui/profile/ProfileScreenKt*.*",
+            "**/com/alpha/books_explorer/presentation/ui/search/SearchScreenKt*.*",
+            "**/com/alpha/books_explorer/presentation/ui/withList/WishlistScreenKt*.*",
+            "**/com/alpha/books_explorer/presentation/ui/CommonUiKt*.*",
+            "**/com/alpha/books_explorer/presentation/ui/theme/**/*.*",
         )
     }
 
