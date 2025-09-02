@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -51,3 +55,5 @@ jobs:
           type: jacoco
           result_path: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
           min_coverage: 60
+          token: ${{ secrets.GITHUB_TOKEN }}
+
