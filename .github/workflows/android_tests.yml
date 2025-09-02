@@ -57,6 +57,13 @@ jobs:
 #          min_coverage: 30
 #          token: ${{ secrets.GITHUB_TOKEN }}
 
+      # 6. Enforce coverage thresholds (fail PR if too low)
+      - name: Check coverage
+        uses: devmasx/coverage-check-action@v1
+        with:
+          coverage-file: app/build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml
+          min-coverage-overall: 30
+          min-coverage-changed-files: 30
 #      - name: Add JaCoCo Coverage Summary
 #        uses: jjmrocha/jacoco-summary@v1.1.1
 #        with:
