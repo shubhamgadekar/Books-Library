@@ -10,18 +10,27 @@ import com.alpha.books_explorer.domain.usecase.GetBookByIdUserCase
 import com.alpha.books_explorer.domain.usecase.readingList.AddIntoReadingListUseCase
 import com.alpha.books_explorer.domain.usecase.readingList.IsBookPresentInReadingListUseCase
 import com.alpha.books_explorer.domain.usecase.readingList.RemoveFromReadingListUseCase
+import com.alpha.books_explorer.platform.Messages
+import com.alpha.data.DataDoor
+import com.alpha.myplatformdoor.FeatureCommand
+import com.alpha.myplatformdoor.FeatureResult
+import com.alpha.myplatformdoor.MessageBus
+import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class BookDetailViewModel
 @Inject
 constructor(
+    private val dataDoor: DataDoor,
+    private val bus: MessageBus,
     private val getBookById: GetBookByIdUserCase,
     private val addIntoFavListUseCase: AddIntoFavListUseCase,
     private val isBookPresentInFavListUserCase: IsBookPresentInFavListUserCase,
@@ -30,6 +39,10 @@ constructor(
     private val isBookPresentInReadingListUseCase: IsBookPresentInReadingListUseCase,
     private val removeFromReadingListUseCase: RemoveFromReadingListUseCase,
 ) : ViewModel() {
+
+//    @Inject
+//    lateinit var bus: MessageBus
+
     private val _bookState = MutableStateFlow(BookDetailsUiState())
     val bookState: StateFlow<BookDetailsUiState> = _bookState
 
@@ -38,6 +51,39 @@ constructor(
 
     private val _checkReadinglistItem = MutableStateFlow(false)
     val checkReadinglistItem: StateFlow<Boolean> = _checkReadinglistItem
+
+    init {
+        viewModelScope.launch {
+            bus.messages.collect { msg ->
+                if (msg.messageName == Messages.GetStudentsData.name) {
+                    println("Shubham: bus.messages = GetStudentsData")
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            dataDoor.handle(
+                FeatureCommand(
+                    messageName = "getBookById",
+                    payload = JsonObject().apply {
+                        addProperty("id", "1")
+                    }
+                )
+            ).collect { bookRes ->
+                bookRes.let {
+                    when (it) {
+                        is FeatureResult.Failure -> {
+                            println("Shubham: Failed = ${it.throwable.message}")
+                        }
+
+                        is FeatureResult.Success -> {
+                            println("Shubham: Success = ${it.data}")
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     fun checkWishlistItem(book: Book?) {
         if (book == null) {

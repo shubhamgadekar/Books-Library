@@ -134,6 +134,9 @@ ktlint {
 }
 
 dependencies {
+    implementation(project(":myPlatformDoor"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -218,4 +221,7 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.test.manifest)
     testImplementation(kotlin("test"))
+
+    // gson
+    implementation(libs.gson)
 }

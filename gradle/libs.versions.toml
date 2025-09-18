@@ -3,6 +3,7 @@ agp = "8.9.2"
 coreKtxVersion = "1.5.0"
 coreTesting = "2.2.0"
 detektFormatting = "1.23.6"
+gson = "2.13.2"
 kotlin = "2.0.21"
 googleServices = "4.4.2"
 devtooldKsp = "2.0.21-1.0.25"
@@ -34,6 +35,8 @@ truth = "1.1.5"
 turbineVersion = "1.1.0"
 uiTestJunit4 = "1.6.7"
 uiTestManifest = "1.6.7"
+appcompat = "1.7.1"
+material = "1.13.0"
 
 
 [libraries]
@@ -43,6 +46,7 @@ androidx-paging-common = { module = "androidx.paging:paging-common", version.ref
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomTesting" }
 core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtxVersion" }
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektFormatting" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -102,6 +106,8 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifest" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -109,3 +115,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtooldKsp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
