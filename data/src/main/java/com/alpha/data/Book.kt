@@ -1,17 +1,20 @@
-package com.alpha.data.local.entities
+package com.alpha.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "favBooks")
-internal data class BookEntity(
-    @PrimaryKey
+data class Book(
     val id: String,
+    val volumeInfo: VolumeInfo,
+)
+
+data class VolumeInfo(
     val title: String?,
     val subtitle: String?,
     val authors: List<String>?,
     val publisher: String?,
     val publishedDate: String?,
     val description: String?,
+    val imageLinks: ImageLinks?,
+)
+
+data class ImageLinks(
     val thumbnail: String?,
 )

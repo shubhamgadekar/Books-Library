@@ -30,10 +30,6 @@ fun HomeScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
-    SideEffect {
-        viewModel.loadBooks()
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(

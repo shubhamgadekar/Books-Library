@@ -1,11 +1,10 @@
-package com.alpha.books_explorer.di
+package com.alpha.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.alpha.books_explorer.data.local.FavBookDatabase
-import com.alpha.books_explorer.data.local.dao.FavBookDao
-import com.alpha.books_explorer.data.local.dao.ReadingListDao
-import com.alpha.myplatformdoor.MessageBus
+import com.alpha.data.local.FavBookDatabase
+import com.alpha.data.local.dao.FavBookDao
+import com.alpha.data.local.dao.ReadingListDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LocalDbModule {
+internal object LocalDbModule {
     @Provides
     @Singleton
     fun provideLocalDatabase(
@@ -39,11 +38,4 @@ object LocalDbModule {
     fun provideReadingListDao(db: FavBookDatabase): ReadingListDao {
         return db.getReadingListDao()
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideDataDoor(): DataDoor {
-//        return FeatureRegistry.require(DataDoor::class)
-//    }
-
 }

@@ -79,8 +79,7 @@ fun SearchScreen(
                     }
 
                     else -> {
-                        searchUiState.books?.let { pagingFlow ->
-                            val books = pagingFlow.collectAsLazyPagingItems()
+                        searchUiState.books?.let { books ->
                             SearchBookList(
                                 books = books,
                                 navController,
@@ -96,17 +95,17 @@ fun SearchScreen(
 
 @Composable
 fun SearchBookList(
-    books: LazyPagingItems<Book>,
+    books: List<Book>,
     navController: NavController,
     emptyMessage: String = "There is something with list. List is empty now!",
 ) {
-    if (books.itemCount > 0) {
+    if (books.count() > 0) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp),
         ) {
-            items(books.itemCount) { book ->
+            items(books.count()) { book ->
                 if (books[book] != null) {
                     BookCard(book = books[book]!!, navController)
                     Spacer(modifier = Modifier.height(8.dp))

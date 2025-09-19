@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 data class SearchUiState(
     val isLoading: Boolean = false,
-    val books: Flow<PagingData<Book>>? = null,
+    val books: List<Book> = emptyList(),
     val error: String? = null,
 )

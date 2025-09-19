@@ -69,15 +69,15 @@ class BookDetailViewModelTest {
         isBookPresentInReadingListUseCase = mockk<IsBookPresentInReadingListUseCase>()
         removeFromReadingListUseCase = mockk<RemoveFromReadingListUseCase>()
 
-        bookDetailViewModel = BookDetailViewModel(
-            getBookById,
-            addIntoFavListUseCase,
-            isBookPresentInFavListUserCase,
-            removeFromFavListUseCase,
-            addIntoReadingListUseCase,
-            isBookPresentInReadingListUseCase,
-            removeFromReadingListUseCase,
-        )
+//        bookDetailViewModel = BookDetailViewModel(
+//            getBookById,
+//            addIntoFavListUseCase,
+//            isBookPresentInFavListUserCase,
+//            removeFromFavListUseCase,
+//            addIntoReadingListUseCase,
+//            isBookPresentInReadingListUseCase,
+//            removeFromReadingListUseCase,
+//        )
     }
 
     @Test

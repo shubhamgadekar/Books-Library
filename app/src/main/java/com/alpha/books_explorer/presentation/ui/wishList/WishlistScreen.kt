@@ -29,9 +29,9 @@ fun WishlistScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
-    SideEffect {
-        viewModel.loadBooks()
-    }
+//    SideEffect {
+//        viewModel.loadBooks()
+//    }
 
     Scaffold(
         topBar = {
