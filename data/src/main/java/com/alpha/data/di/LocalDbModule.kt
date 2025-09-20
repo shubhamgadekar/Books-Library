@@ -17,7 +17,7 @@ import javax.inject.Singleton
 internal object LocalDbModule {
     @Provides
     @Singleton
-    fun provideLocalDatabase(
+    internal fun provideLocalDatabase(
         @ApplicationContext context: Context,
     ): FavBookDatabase {
         val db =
@@ -29,13 +29,13 @@ internal object LocalDbModule {
 
     @Provides
     @Singleton
-    fun provideBooksDao(db: FavBookDatabase): FavBookDao {
+    internal fun provideBooksDao(db: FavBookDatabase): FavBookDao {
         return db.getFavBookDao()
     }
 
     @Provides
     @Singleton
-    fun provideReadingListDao(db: FavBookDatabase): ReadingListDao {
+    internal fun provideReadingListDao(db: FavBookDatabase): ReadingListDao {
         return db.getReadingListDao()
     }
 }

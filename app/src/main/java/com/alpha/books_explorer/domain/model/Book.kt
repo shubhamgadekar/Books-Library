@@ -1,11 +1,11 @@
 package com.alpha.books_explorer.domain.model
 
-data class Book(
+internal data class Book(
     val id: String,
     val volumeInfo: VolumeInfo,
 )
 
-data class VolumeInfo(
+internal data class VolumeInfo(
     val title: String?,
     val subtitle: String?,
     val authors: List<String>?,
@@ -15,6 +15,6 @@ data class VolumeInfo(
     val imageLinks: ImageLinks?,
 )
 
-data class ImageLinks(
+internal data class ImageLinks(
     val thumbnail: String?,
 )

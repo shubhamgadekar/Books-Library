@@ -16,39 +16,27 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class PlatformModule {
+internal class PlatformModule {
 
     @Provides
     @Singleton
-    fun providesContext(@ApplicationContext context: Context): Context {
+    internal fun providesContext(@ApplicationContext context: Context): Context {
         return context
     }
 
-//    @Provides
-//    @Singleton
-//    fun providesDataDoor(): DataDoor {
-//        return DataDoor()
-//    }
-
-//    @Provides
-//    @Singleton
-//    fun providesAppDoor(): MainAppDoor {
-//        return MainAppDoor()
-//    }
-
     @Provides
     @Singleton
-    fun providePlatformHub(): PlatformHub {
+    internal fun providePlatformHub(): PlatformHub {
         return PlatformHub()
     }
 
     @Provides
     @Singleton
-    fun provideMessageBus(): MessageBus = MessageBus()
+    internal fun provideMessageBus(): MessageBus = MessageBus()
 
     @Provides
     @Singleton
-    fun providesDoorInitializer(
+    internal fun providesDoorInitializer(
         @ApplicationContext context: Context,
         dataDoor: DataDoor,
         mainAppDoor: MainAppDoor,

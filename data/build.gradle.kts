@@ -36,7 +36,6 @@ android {
 
 dependencies {
     implementation(project(":myPlatformDoor"))
-    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

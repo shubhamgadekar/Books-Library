@@ -6,12 +6,12 @@ import com.google.gson.reflect.TypeToken
 
 internal class Converters {
     @TypeConverter
-    fun fromAuthorsList(authors: List<String>?): String? {
+    internal fun fromAuthorsList(authors: List<String>?): String? {
         return Gson().toJson(authors)
     }
 
     @TypeConverter
-    fun toAuthorsList(authorsString: String?): List<String>? {
+    internal fun toAuthorsList(authorsString: String?): List<String>? {
         if (authorsString.isNullOrEmpty()) return emptyList()
         val listType = object : TypeToken<List<String>>() {}.type
         return Gson().fromJson(authorsString, listType)

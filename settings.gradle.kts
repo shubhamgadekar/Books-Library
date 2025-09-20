@@ -23,4 +23,3 @@ rootProject.name = "Book-Explorer"
 include(":app")
 include(":myPlatformDoor")
 include(":data")
-include(":domain")

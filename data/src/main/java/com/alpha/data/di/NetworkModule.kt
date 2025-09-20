@@ -15,22 +15,23 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object NetworkModule {
-//    @Provides
-//    @Singleton
-//    fun provideRetrofit(): Retrofit {
-//        return Retrofit.Builder().baseUrl("https://www.googleapis.com/books/v1/")
-//            .addConverterFactory(GsonConverterFactory.create()).build()
-//    }
 
     @Provides
     @Singleton
-    fun provideBookApi(retrofit: Retrofit): BookApiService {
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder().baseUrl("https://www.googleapis.com/books/v1/")
+            .addConverterFactory(GsonConverterFactory.create()).build()
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideBookApi(retrofit: Retrofit): BookApiService {
         return retrofit.create(BookApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideBookRepository(
+    internal fun provideBookRepository(
         api: BookApiService,
         favDao: FavBookDao,
         readingDao: ReadingListDao,

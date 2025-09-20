@@ -1,19 +1,13 @@
 package com.alpha.data.repository
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.alpha.data.Book
 import com.alpha.data.local.dao.FavBookDao
 import com.alpha.data.local.dao.ReadingListDao
 import com.alpha.data.mappers.toBook
 import com.alpha.data.mappers.toBookEntity
 import com.alpha.data.mappers.toReadingListEntity
-import com.alpha.data.paging.BooksPagingSource
 import com.alpha.data.remote.BookApiService
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 internal class BookRepositoryImpl
 @Inject constructor(
@@ -21,26 +15,14 @@ internal class BookRepositoryImpl
     private val localDao: FavBookDao,
     private val readingListDao: ReadingListDao,
 ) {
-    suspend fun getBooks(query: String, start: Int = 0, count: Int = 10): List<Book> {
+    suspend fun getBooks(query: String, start: Int = 0, count: Int = 20): List<Book> {
         val response = api.searchBooks(query, start, count)
         val books = response.items ?: emptyList()
         return books
     }
 
-    fun getBooksFromPaging(query: String): Flow<PagingData<Book>> {
-        return Pager(
-            config = PagingConfig(
-                initialLoadSize = 20,
-                pageSize = 20,
-                enablePlaceholders = false,
-            ),
-            pagingSourceFactory = { BooksPagingSource(api, query) },
-        ).flow
-    }
-
     suspend fun getBookById(id: String): Book {
         return api.getBookById(id)
-//        emit(response)
     }
 
     suspend fun addIntoFavListBooks(book: Book) {
@@ -59,25 +41,17 @@ internal class BookRepositoryImpl
         readingListDao.deleteFromReadingList(book.toReadingListEntity())
     }
 
-    fun isBookPresentInFavList(book: Book): Flow<Boolean> = flow {
-        val returnId = localDao.isBookPresent(book.id)
-        returnId.let {
-            if (it == null || it.isEmpty()) {
-                emit(false)
-            } else {
-                emit(true)
-            }
+    suspend fun isBookPresentInFavList(id: String): Boolean {
+        val returnId = localDao.isBookPresent(id)
+        return returnId.let {
+            !(it == null || it.isEmpty())
         }
     }
 
-    fun isBookPresentInReadingList(book: Book): Flow<Boolean> = flow {
-        val returnId = readingListDao.isBookPresentInReadingList(book.id)
-        returnId.let {
-            if (it == null || it.isEmpty()) {
-                emit(false)
-            } else {
-                emit(true)
-            }
+    suspend fun isBookPresentInReadingList(id: String): Boolean {
+        val returnId = readingListDao.isBookPresentInReadingList(id)
+        return returnId.let {
+            !(it == null || it.isEmpty())
         }
     }
 

@@ -9,6 +9,7 @@ import com.alpha.myplatformdoor.MessageBus
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
@@ -38,6 +39,12 @@ class DataDoor @Inject internal constructor(
 
     private val _favBooks = MutableSharedFlow<FeatureCommand>()
     private val favBooks: SharedFlow<FeatureCommand> = _favBooks
+
+    private val _isBookPresentInFavList = MutableSharedFlow<FeatureCommand>()
+    val isBookPresentInFavList: SharedFlow<FeatureCommand> = _isBookPresentInFavList
+
+    private val _isBookPresentInReadingList = MutableSharedFlow<FeatureCommand>()
+    val isBookPresentInReadingList: SharedFlow<FeatureCommand> = _isBookPresentInReadingList
 
     override fun handle(command: FeatureCommand): Flow<FeatureResult> = flow {
         val response = JsonObject().apply {
@@ -136,7 +143,11 @@ class DataDoor @Inject internal constructor(
             }
         } else if (message.messageName == "GetSearchResult") {
             CoroutineScope(Dispatchers.IO).launch {
-                val books = bookRepositoryImpl.getBooks(message.payload?.get("query")?.asString ?: "")
+                val books = bookRepositoryImpl.getBooks(
+                    query = message.payload?.get("query")?.asString ?: "",
+                    start = message.payload?.get("startIndex")?.asInt ?: 0,
+                    count = message.payload?.get("count")?.asInt ?: 20,
+                )
                 if (books.isEmpty()) {
                     val message = FeatureCommand(
                         messageName = "SubscribeSearchResult",
@@ -163,6 +174,62 @@ class DataDoor @Inject internal constructor(
                     )
                 }
             }
+        } else if (message.messageName == "GetIfBookIsFav") {
+            CoroutineScope(Dispatchers.IO).launch {
+                val isFavBook = bookRepositoryImpl.isBookPresentInFavList(
+                    id = message.payload?.get("id")?.asString ?: ""
+                )
+
+                val message = FeatureCommand(
+                    messageName = "SubscribeCheckFavBook",
+                    payload = JsonObject().apply {
+                        addProperty("isFav", isFavBook)
+                    }
+                )
+                _isBookPresentInFavList.emit(
+                    message
+                )
+            }
+        } else if (message.messageName == "GetIfBookIsInReadingList") {
+            CoroutineScope(Dispatchers.IO).launch {
+                val isFavBook = bookRepositoryImpl.isBookPresentInReadingList(
+                    id = message.payload?.get("id")?.asString ?: ""
+                )
+
+                val message = FeatureCommand(
+                    messageName = "SubscribeCheckReadingListBook",
+                    payload = JsonObject().apply {
+                        addProperty("isInReadingList", isFavBook)
+                    }
+                )
+                _isBookPresentInReadingList.emit(
+                    message
+                )
+            }
+        } else if (message.messageName == "AddBookIntoFavList") {
+            CoroutineScope(Dispatchers.IO).launch {
+                val type = object : TypeToken<Book>() {}.type
+                val book: Book = Gson().fromJson(message.payload, type)
+                bookRepositoryImpl.addIntoFavListBooks(book)
+            }
+        } else if (message.messageName == "RemoveBookFromFavList") {
+            CoroutineScope(Dispatchers.IO).launch {
+                val type = object : TypeToken<Book>() {}.type
+                val book: Book = Gson().fromJson(message.payload, type)
+                bookRepositoryImpl.deleteFromFavListBooks(book)
+            }
+        } else if (message.messageName == "AddBookIntoReadingList") {
+            CoroutineScope(Dispatchers.IO).launch {
+                val type = object : TypeToken<Book>() {}.type
+                val book: Book = Gson().fromJson(message.payload, type)
+                bookRepositoryImpl.addIntoReadingListBooks(book)
+            }
+        } else if (message.messageName == "RemoveBookFromReadingList") {
+            CoroutineScope(Dispatchers.IO).launch {
+                val type = object : TypeToken<Book>() {}.type
+                val book: Book = Gson().fromJson(message.payload, type)
+                bookRepositoryImpl.deleteFromReadingListBooks(book)
+            }
         }
     }
 
@@ -171,6 +238,8 @@ class DataDoor @Inject internal constructor(
         else if (message.messageName == "SubscribeReadingList") return readingList
         else if (message.messageName == "SubscribeSearchResult") return searchBooks
         else if (message.messageName == "SubscribeFavList") return favBooks
+        else if (message.messageName == "SubscribeCheckFavBook") return isBookPresentInFavList
+        else if (message.messageName == "SubscribeCheckReadingListBook") return isBookPresentInReadingList
         else throw Exception("Message Not Subscribed")
     }
 

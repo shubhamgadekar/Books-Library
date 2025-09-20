@@ -9,19 +9,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.alpha.books_explorer.presentation.navigation.MyAppNavHost
 import com.alpha.books_explorer.presentation.ui.theme.BookExplorerTheme
-import com.alpha.myplatformdoor.DoorInitializer
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var doorInitializer: DoorInitializer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +24,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-//        doorInitializer.setup()
     }
 }

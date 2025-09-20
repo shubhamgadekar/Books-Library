@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DoorInitializerImpl @Inject constructor(
+internal class DoorInitializerImpl @Inject constructor(
     private val context: Context,
     private val dataDoor: DataDoor,
     private val mainAppDoor: MainAppDoor,
@@ -19,7 +19,22 @@ class DoorInitializerImpl @Inject constructor(
 
     override val doorList: List<Pair<FeatureEntry, List<String>>>
         get() = listOf(
-            Pair(dataDoor, listOf("GetBookById", "GetBookList", "GetReadingList", "GetSearchResult", "GetFavList")),
+            Pair(
+                dataDoor,
+                listOf(
+                    "GetBookById",
+                    "GetBookList",
+                    "GetReadingList",
+                    "GetSearchResult",
+                    "GetFavList",
+                    "GetIfBookIsFav",
+                    "GetIfBookIsInReadingList",
+                    "AddBookIntoFavList",
+                    "RemoveBookFromFavList",
+                    "AddBookIntoReadingList",
+                    "RemoveBookFromReadingList"
+                )
+            ),
             Pair(mainAppDoor, listOf("ReceivedBookByIdResponse", "ReceivedBookListResponse")),
         )
 
@@ -27,10 +42,15 @@ class DoorInitializerImpl @Inject constructor(
         get() = listOf(
             Pair(
                 Pair(
-                    dataDoor,
-                    listOf("SubscribeBookById", "SubscribeReadingList", "SubscribeSearchResult", "SubscribeFavList")
-                ),
-                mainAppDoor
+                    dataDoor, listOf(
+                        "SubscribeBookById",
+                        "SubscribeReadingList",
+                        "SubscribeSearchResult",
+                        "SubscribeFavList",
+                        "SubscribeCheckFavBook",
+                        "SubscribeCheckReadingListBook"
+                    )
+                ), mainAppDoor
             ),
         )
 

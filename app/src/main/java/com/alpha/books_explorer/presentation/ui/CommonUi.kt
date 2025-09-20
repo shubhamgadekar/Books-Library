@@ -25,7 +25,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.alpha.books_explorer.domain.model.Book
 
 @Composable
-fun BookList(
+internal fun BookList(
     books: List<Book>,
     navController: NavController,
     emptyMessage: String = "There is something with list. List is empty now!",
@@ -49,7 +49,7 @@ fun BookList(
 }
 
 @Composable
-fun BookCard(
+internal fun BookCard(
     book: Book,
     navController: NavController,
 ) {
