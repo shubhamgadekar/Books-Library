@@ -48,8 +48,6 @@ class DataDoor @Inject internal constructor(
             addProperty("status", "Domain handled")
         }
 
-        bus.publish(FeatureCommand(messageName = "GetStudentsData", response))
-
         emit(
             FeatureCommand(
                 messageName = command.messageName,
@@ -72,7 +70,6 @@ class DataDoor @Inject internal constructor(
             EventType.PublishType("SubscribeCheckFavBook", this),
             EventType.PublishType("SubscribeCheckReadingListBook", this),
         )
-
 
     override val messageList: List<MessageType>
         get() = listOf(
