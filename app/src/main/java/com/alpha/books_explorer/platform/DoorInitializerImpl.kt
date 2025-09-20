@@ -17,41 +17,9 @@ internal class DoorInitializerImpl @Inject constructor(
     private val platformHub: PlatformHub,
 ) : DoorInitializer {
 
-    override val doorList: List<Pair<FeatureEntry, List<String>>>
+    override val doorList: List<FeatureEntry>
         get() = listOf(
-            Pair(
-                dataDoor,
-                listOf(
-                    "GetBookById",
-                    "GetBookList",
-                    "GetReadingList",
-                    "GetSearchResult",
-                    "GetFavList",
-                    "GetIfBookIsFav",
-                    "GetIfBookIsInReadingList",
-                    "AddBookIntoFavList",
-                    "RemoveBookFromFavList",
-                    "AddBookIntoReadingList",
-                    "RemoveBookFromReadingList"
-                )
-            ),
-            Pair(mainAppDoor, listOf("ReceivedBookByIdResponse", "ReceivedBookListResponse")),
-        )
-
-    override val doorEventList: List<Pair<Pair<FeatureEntry, List<String>>, FeatureEntry>>
-        get() = listOf(
-            Pair(
-                Pair(
-                    dataDoor, listOf(
-                        "SubscribeBookById",
-                        "SubscribeReadingList",
-                        "SubscribeSearchResult",
-                        "SubscribeFavList",
-                        "SubscribeCheckFavBook",
-                        "SubscribeCheckReadingListBook"
-                    )
-                ), mainAppDoor
-            ),
+            dataDoor, mainAppDoor
         )
 
     override fun setup() {

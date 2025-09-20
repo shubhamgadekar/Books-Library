@@ -2,10 +2,10 @@ package com.alpha.data
 
 import android.content.Context
 import com.alpha.data.repository.BookRepositoryImpl
+import com.alpha.myplatformdoor.messageTypes.EventType
 import com.alpha.myplatformdoor.FeatureCommand
 import com.alpha.myplatformdoor.FeatureEntry
-import com.alpha.myplatformdoor.FeatureResult
-import com.alpha.myplatformdoor.MessageBus
+import com.alpha.myplatformdoor.messageTypes.MessageType
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -25,9 +25,6 @@ class DataDoor @Inject internal constructor(
     private val bookRepositoryImpl: BookRepositoryImpl,
 ) : FeatureEntry() {
 
-    @Inject
-    internal lateinit var bus: MessageBus
-
     private val _bookByIdFlow = MutableSharedFlow<FeatureCommand>()
     private val bookByIdFlow: SharedFlow<FeatureCommand> = _bookByIdFlow
 
@@ -46,7 +43,7 @@ class DataDoor @Inject internal constructor(
     private val _isBookPresentInReadingList = MutableSharedFlow<FeatureCommand>()
     val isBookPresentInReadingList: SharedFlow<FeatureCommand> = _isBookPresentInReadingList
 
-    override fun handle(command: FeatureCommand): Flow<FeatureResult> = flow {
+    override fun handle(command: FeatureCommand): Flow<FeatureCommand> = flow {
         val response = JsonObject().apply {
             addProperty("status", "Domain handled")
         }
@@ -54,18 +51,45 @@ class DataDoor @Inject internal constructor(
         bus.publish(FeatureCommand(messageName = "GetStudentsData", response))
 
         emit(
-            FeatureResult.Success(
-                FeatureCommand(
-                    messageName = command.messageName,
-                    payload = response
-                )
+            FeatureCommand(
+                messageName = command.messageName,
+                payload = response
             )
+
         )
     }
 
     override fun init(context: Context) {
 
     }
+
+    override val eventList: List<EventType>
+        get() = listOf(
+            EventType.PublishType("SubscribeBookById", this),
+            EventType.PublishType("SubscribeReadingList", this),
+            EventType.PublishType("SubscribeSearchResult", this),
+            EventType.PublishType("SubscribeFavList", this),
+            EventType.PublishType("SubscribeCheckFavBook", this),
+            EventType.PublishType("SubscribeCheckReadingListBook", this),
+        )
+
+
+    override val messageList: List<MessageType>
+        get() = listOf(
+            MessageType.ReceiveType("GetBookById", this),
+            MessageType.ReceiveType("GetReadingList", this),
+            MessageType.ReceiveType("GetFavList", this),
+            MessageType.ReceiveType("GetSearchResult", this),
+            MessageType.ReceiveType("GetIfBookIsFav", this),
+            MessageType.ReceiveType("GetIfBookIsInReadingList", this),
+            MessageType.ReceiveType("AddBookIntoFavList", this),
+            MessageType.ReceiveType("RemoveBookFromFavList", this),
+            MessageType.ReceiveType("AddBookIntoReadingList", this),
+            MessageType.ReceiveType("RemoveBookFromReadingList", this),
+
+            MessageType.SendType("ReceivedBookByIdResponse", this),
+            MessageType.SendType("ReceivedBookListResponse", this),
+        )
 
     override fun onReceive(message: FeatureCommand) {
         if (message.messageName == "GetBookById") {
@@ -75,7 +99,8 @@ class DataDoor @Inject internal constructor(
                 messageSender.send(
                     FeatureCommand(
                         messageName = "ReceivedBookByIdResponse",
-                        payload = jsonObject
+                        payload = jsonObject,
+                        doorName = this@DataDoor.name
                     )
                 )
                 _bookByIdFlow.emit(

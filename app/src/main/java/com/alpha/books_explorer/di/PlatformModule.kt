@@ -5,7 +5,6 @@ import com.alpha.books_explorer.MainAppDoor
 import com.alpha.books_explorer.platform.DoorInitializerImpl
 import com.alpha.data.DataDoor
 import com.alpha.myplatformdoor.DoorInitializer
-import com.alpha.myplatformdoor.MessageBus
 import com.alpha.myplatformdoor.PlatformHub
 import dagger.Module
 import dagger.Provides
@@ -29,10 +28,6 @@ internal class PlatformModule {
     internal fun providePlatformHub(): PlatformHub {
         return PlatformHub()
     }
-
-    @Provides
-    @Singleton
-    internal fun provideMessageBus(): MessageBus = MessageBus()
 
     @Provides
     @Singleton

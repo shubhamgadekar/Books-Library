@@ -4,5 +4,6 @@ import com.google.gson.JsonObject
 
 data class FeatureCommand(
     val messageName: String,
-    val payload: JsonObject? = null
+    val payload: JsonObject? = null,
+    val doorName: String? = null
 )

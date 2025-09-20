@@ -2,9 +2,10 @@ package com.alpha.books_explorer
 
 import android.content.Context
 import com.alpha.books_explorer.domain.model.Book
+import com.alpha.myplatformdoor.messageTypes.EventType
 import com.alpha.myplatformdoor.FeatureCommand
 import com.alpha.myplatformdoor.FeatureEntry
-import com.alpha.myplatformdoor.FeatureResult
+import com.alpha.myplatformdoor.messageTypes.MessageType
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javax.inject.Inject
@@ -38,13 +39,39 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
     private val _isBookPresentInReadingList = MutableSharedFlow<FeatureCommand>()
     val isBookPresentInReadingList: SharedFlow<FeatureCommand> = _isBookPresentInReadingList
 
-    override fun handle(command: FeatureCommand): Flow<FeatureResult> = flow {
+    override val eventList: List<EventType>
+        get() = listOf(
+            EventType.SubscribeType("SubscribeBookById", this),
+            EventType.SubscribeType("SubscribeReadingList", this),
+            EventType.SubscribeType("SubscribeSearchResult", this),
+            EventType.SubscribeType("SubscribeFavList", this),
+            EventType.SubscribeType("SubscribeCheckFavBook", this),
+            EventType.SubscribeType("SubscribeCheckReadingListBook", this),
+        )
+
+    override val messageList: List<MessageType>
+        get() = listOf(
+            MessageType.SendType("GetBookById", this),
+            MessageType.SendType("GetReadingList", this),
+            MessageType.SendType("GetFavList", this),
+            MessageType.SendType("GetSearchResult", this),
+            MessageType.SendType("GetIfBookIsFav", this),
+            MessageType.SendType("GetIfBookIsInReadingList", this),
+            MessageType.SendType("AddBookIntoFavList", this),
+            MessageType.SendType("RemoveBookFromFavList", this),
+            MessageType.SendType("AddBookIntoReadingList", this),
+            MessageType.SendType("RemoveBookFromReadingList", this),
+
+            MessageType.ReceiveType("ReceivedBookByIdResponse", this),
+            MessageType.ReceiveType("ReceivedBookListResponse", this),
+        )
+
+    override fun handle(command: FeatureCommand): Flow<FeatureCommand> = flow {
         emit(
-            FeatureResult.Success(
-                FeatureCommand(
-                    messageName = command.messageName, payload = JsonObject()
-                )
+            FeatureCommand(
+                messageName = command.messageName, payload = JsonObject()
             )
+
         )
     }
 
@@ -114,7 +141,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
                     addProperty("query", query)
                     addProperty("startIndex", startIndex)
                     addProperty("count", count)
-                }
+                },
+                doorName = this.name
             )
         )
     }
@@ -122,7 +150,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
     internal fun getFavBookList() {
         messageSender.send(
             FeatureCommand(
-                messageName = "GetFavList"
+                messageName = "GetFavList",
+                doorName = this.name
             )
         )
     }
@@ -130,7 +159,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
     internal fun getReadingList() {
         messageSender.send(
             FeatureCommand(
-                messageName = "GetReadingList"
+                messageName = "GetReadingList",
+                doorName = this.name
             )
         )
     }
@@ -142,7 +172,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
         messageSender.send(
             FeatureCommand(
                 messageName = "GetBookById",
-                payload = payload
+                payload = payload,
+                doorName = this.name
             )
         )
     }
@@ -154,7 +185,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
         messageSender.send(
             FeatureCommand(
                 messageName = "GetIfBookIsFav",
-                payload = payload
+                payload = payload,
+                doorName = this.name
             )
         )
     }
@@ -166,7 +198,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
         messageSender.send(
             FeatureCommand(
                 messageName = "GetIfBookIsInReadingList",
-                payload = payload
+                payload = payload,
+                doorName = this.name
             )
         )
     }
@@ -176,7 +209,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
         messageSender.send(
             FeatureCommand(
                 messageName = "AddBookIntoFavList",
-                payload = jsonObject
+                payload = jsonObject,
+                doorName = this.name
             )
         )
     }
@@ -186,7 +220,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
         messageSender.send(
             FeatureCommand(
                 messageName = "RemoveBookFromFavList",
-                payload = jsonObject
+                payload = jsonObject,
+                doorName = this.name
             )
         )
     }
@@ -196,7 +231,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
         messageSender.send(
             FeatureCommand(
                 messageName = "AddBookIntoReadingList",
-                payload = jsonObject
+                payload = jsonObject,
+                doorName = this.name
             )
         )
     }
@@ -206,7 +242,8 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
         messageSender.send(
             FeatureCommand(
                 messageName = "RemoveBookFromReadingList",
-                payload = jsonObject
+                payload = jsonObject,
+                doorName = this.name
             )
         )
     }
