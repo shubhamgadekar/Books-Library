@@ -4,8 +4,8 @@ import android.content.Context
 import com.alpha.books_explorer.MainAppDoor
 import com.alpha.books_explorer.platform.DoorInitializerImpl
 import com.alpha.data.DataDoor
-import com.alpha.myplatformdoor.DoorInitializer
-import com.alpha.myplatformdoor.PlatformHub
+import com.alpha.modulesDoor.DoorInitializer
+import com.alpha.modulesDoor.Door
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal class PlatformModule {
+internal class DoorModule {
 
     @Provides
     @Singleton
@@ -25,8 +25,8 @@ internal class PlatformModule {
 
     @Provides
     @Singleton
-    internal fun providePlatformHub(): PlatformHub {
-        return PlatformHub()
+    internal fun providePlatformHub(): Door {
+        return Door()
     }
 
     @Provides
@@ -35,8 +35,8 @@ internal class PlatformModule {
         @ApplicationContext context: Context,
         dataDoor: DataDoor,
         mainAppDoor: MainAppDoor,
-        platformHub: PlatformHub,
+        door: Door,
     ): DoorInitializer {
-        return DoorInitializerImpl(context, dataDoor, mainAppDoor, platformHub)
+        return DoorInitializerImpl(context, dataDoor, mainAppDoor, door)
     }
 }

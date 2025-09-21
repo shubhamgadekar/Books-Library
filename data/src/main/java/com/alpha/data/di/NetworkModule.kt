@@ -3,7 +3,7 @@ package com.alpha.data.di
 import com.alpha.data.local.dao.FavBookDao
 import com.alpha.data.local.dao.ReadingListDao
 import com.alpha.data.remote.BookApiService
-import com.alpha.data.repository.BookRepositoryImpl
+import com.alpha.data.repository.BookRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,7 +35,7 @@ internal object NetworkModule {
         api: BookApiService,
         favDao: FavBookDao,
         readingDao: ReadingListDao,
-    ): BookRepositoryImpl {
-        return BookRepositoryImpl(api, favDao, readingDao)
+    ): BookRepository {
+        return BookRepository(api, favDao, readingDao)
     }
 }

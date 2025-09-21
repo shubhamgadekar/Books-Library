@@ -9,7 +9,7 @@ import com.alpha.data.mappers.toReadingListEntity
 import com.alpha.data.remote.BookApiService
 import javax.inject.Inject
 
-internal class BookRepositoryImpl
+internal class BookRepository
 @Inject constructor(
     private val api: BookApiService,
     private val localDao: FavBookDao,

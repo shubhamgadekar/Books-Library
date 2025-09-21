@@ -35,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":myPlatformDoor"))
 
+    implementation(project(":modulesDoor"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -1,18 +1,18 @@
-package com.alpha.myplatformdoor
+package com.alpha.modulesDoor
 
 import android.content.Context
-import com.alpha.myplatformdoor.messageSender.MessageSenderImpl
-import com.alpha.myplatformdoor.messageTypes.EventType
+import com.alpha.modulesDoor.messageSender.MessageSenderImpl
+import com.alpha.modulesDoor.messageTypes.EventType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
-internal class MicroKernel(
+internal class DoorKernel(
     private val messageSender: MessageSenderImpl = MessageSenderImpl(),
 ) {
 
-    private val eventPublishers = mutableMapOf<String, SharedFlow<FeatureCommand>>()
+    private val eventPublishers = mutableMapOf<String, SharedFlow<DoorCommand>>()
 
     fun init(
         applicationContext: Context,
@@ -25,7 +25,6 @@ internal class MicroKernel(
                 door.init(applicationContext, messageSender)
             }
 
-//            subscribeAllEvents(doorInitializer, applicationContext)
             subscribeEventByDoors(doorInitializer)
         }
     }
@@ -35,7 +34,7 @@ internal class MicroKernel(
             door.eventList.forEach { event ->
                 when (event) {
                     is EventType.PublishType -> {
-                        val message = FeatureCommand(messageName = event.eventName, doorName = event.door.name)
+                        val message = DoorCommand(messageName = event.eventName, doorName = event.door.name)
                         val flow = door.publish(message)
                         eventPublishers[event.eventName] = flow
                     }
@@ -58,7 +57,7 @@ internal class MicroKernel(
                         if (eventPublishers[event.eventName] == null) {
                             throw Exception("${event.eventName} - this event is not registered, please do check your event list once")
                         } else {
-                            event.door.subscribe(eventPublishers[event.eventName]!!, FeatureCommand(event.eventName))
+                            event.door.subscribe(eventPublishers[event.eventName]!!, DoorCommand(event.eventName))
                         }
                     }
                 }

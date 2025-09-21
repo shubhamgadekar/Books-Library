@@ -45,25 +45,25 @@ internal fun ReadingListEntity.toBook(): Book {
 internal fun Book.toBookEntity(): BookEntity {
     return BookEntity(
         id = this.id.toString(),
-        title = this.volumeInfo?.title,
-        subtitle = this.volumeInfo?.subtitle,
-        authors = this.volumeInfo?.authors,
-        publisher = this.volumeInfo?.publisher,
-        publishedDate = this.volumeInfo?.publishedDate,
-        description = this.volumeInfo?.description,
-        thumbnail = this.volumeInfo?.imageLinks?.thumbnail,
+        title = this.volumeInfo.title,
+        subtitle = this.volumeInfo.subtitle,
+        authors = this.volumeInfo.authors,
+        publisher = this.volumeInfo.publisher,
+        publishedDate = this.volumeInfo.publishedDate,
+        description = this.volumeInfo.description,
+        thumbnail = this.volumeInfo.imageLinks?.thumbnail,
     )
 }
 
 internal fun Book.toReadingListEntity(): ReadingListEntity {
     return ReadingListEntity(
         id = this.id.toString(),
-        title = this.volumeInfo?.title,
-        subtitle = this.volumeInfo?.subtitle,
-        authors = this.volumeInfo?.authors,
-        publisher = this.volumeInfo?.publisher,
-        publishedDate = this.volumeInfo?.publishedDate,
-        description = this.volumeInfo?.description,
-        thumbnail = this.volumeInfo?.imageLinks?.thumbnail,
+        title = this.volumeInfo.title,
+        subtitle = this.volumeInfo.subtitle,
+        authors = this.volumeInfo.authors,
+        publisher = this.volumeInfo.publisher,
+        publishedDate = this.volumeInfo.publishedDate,
+        description = this.volumeInfo.description,
+        thumbnail = this.volumeInfo.imageLinks?.thumbnail,
     )
 }

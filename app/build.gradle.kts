@@ -134,7 +134,7 @@ ktlint {
 }
 
 dependencies {
-    implementation(project(":myPlatformDoor"))
+    implementation(project(":modulesDoor"))
     implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)

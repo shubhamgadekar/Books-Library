@@ -2,42 +2,40 @@ package com.alpha.books_explorer
 
 import android.content.Context
 import com.alpha.books_explorer.domain.model.Book
-import com.alpha.myplatformdoor.messageTypes.EventType
-import com.alpha.myplatformdoor.FeatureCommand
-import com.alpha.myplatformdoor.FeatureEntry
-import com.alpha.myplatformdoor.messageTypes.MessageType
+import com.alpha.modulesDoor.messageTypes.EventType
+import com.alpha.modulesDoor.DoorCommand
+import com.alpha.modulesDoor.DoorEntry
+import com.alpha.modulesDoor.messageTypes.MessageType
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 @Singleton
-class MainAppDoor @Inject constructor() : FeatureEntry() {
+class MainAppDoor @Inject constructor() : DoorEntry() {
 
-    private val _favList = MutableSharedFlow<FeatureCommand>()
-    val favList: SharedFlow<FeatureCommand> = _favList
+    private val _favList = MutableSharedFlow<DoorCommand>()
+    val favList: SharedFlow<DoorCommand> = _favList
 
-    private val _readingList = MutableSharedFlow<FeatureCommand>()
-    val readingList: SharedFlow<FeatureCommand> = _readingList
+    private val _readingList = MutableSharedFlow<DoorCommand>()
+    val readingList: SharedFlow<DoorCommand> = _readingList
 
-    private val _searchList = MutableSharedFlow<FeatureCommand>()
-    val searchList: SharedFlow<FeatureCommand> = _searchList
+    private val _searchList = MutableSharedFlow<DoorCommand>()
+    val searchList: SharedFlow<DoorCommand> = _searchList
 
-    private val _bookById = MutableSharedFlow<FeatureCommand>()
-    val bookById: SharedFlow<FeatureCommand> = _bookById
+    private val _bookById = MutableSharedFlow<DoorCommand>()
+    val bookById: SharedFlow<DoorCommand> = _bookById
 
-    private val _isBookPresentInFavList = MutableSharedFlow<FeatureCommand>()
-    val isBookPresentInFavList: SharedFlow<FeatureCommand> = _isBookPresentInFavList
+    private val _isBookPresentInFavList = MutableSharedFlow<DoorCommand>()
+    val isBookPresentInFavList: SharedFlow<DoorCommand> = _isBookPresentInFavList
 
-    private val _isBookPresentInReadingList = MutableSharedFlow<FeatureCommand>()
-    val isBookPresentInReadingList: SharedFlow<FeatureCommand> = _isBookPresentInReadingList
+    private val _isBookPresentInReadingList = MutableSharedFlow<DoorCommand>()
+    val isBookPresentInReadingList: SharedFlow<DoorCommand> = _isBookPresentInReadingList
 
     override val eventList: List<EventType>
         get() = listOf(
@@ -66,39 +64,30 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
             MessageType.ReceiveType("ReceivedBookListResponse", this),
         )
 
-    override fun handle(command: FeatureCommand): Flow<FeatureCommand> = flow {
-        emit(
-            FeatureCommand(
-                messageName = command.messageName, payload = JsonObject()
-            )
-
-        )
-    }
-
     override fun init(context: Context) {
 
     }
 
-    override fun onReceive(message: FeatureCommand) {
+    override fun onReceive(message: DoorCommand) {
         if (message.messageName == "ReceivedBookByIdResponse") {
             println("Shubham: Received book response: ${message}")
         }
     }
 
-    override fun publish(message: FeatureCommand): SharedFlow<FeatureCommand> {
+    override fun publish(message: DoorCommand): SharedFlow<DoorCommand> {
         TODO("Not yet implemented")
     }
 
     override fun subscribe(
-        subscription: SharedFlow<FeatureCommand>,
-        featureCommand: FeatureCommand,
+        subscription: SharedFlow<DoorCommand>,
+        featureCommand: DoorCommand,
     ) {
         collectSubscription(subscription, featureCommand)
     }
 
     private fun collectSubscription(
-        flow: SharedFlow<FeatureCommand>,
-        command: FeatureCommand,
+        flow: SharedFlow<DoorCommand>,
+        command: DoorCommand,
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             if (command.messageName == "SubscribeReadingList") {
@@ -135,7 +124,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
 
     internal fun getSearchResult(query: String, startIndex: Int, count: Int) {
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "GetSearchResult",
                 payload = JsonObject().apply {
                     addProperty("query", query)
@@ -149,7 +138,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
 
     internal fun getFavBookList() {
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "GetFavList",
                 doorName = this.name
             )
@@ -158,7 +147,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
 
     internal fun getReadingList() {
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "GetReadingList",
                 doorName = this.name
             )
@@ -170,7 +159,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
             addProperty("id", bookId)
         }
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "GetBookById",
                 payload = payload,
                 doorName = this.name
@@ -183,7 +172,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
             addProperty("id", id)
         }
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "GetIfBookIsFav",
                 payload = payload,
                 doorName = this.name
@@ -196,7 +185,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
             addProperty("id", id)
         }
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "GetIfBookIsInReadingList",
                 payload = payload,
                 doorName = this.name
@@ -207,7 +196,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
     internal fun addBookIntoFavList(book: Book) {
         val jsonObject: JsonObject = Gson().toJsonTree(book).asJsonObject
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "AddBookIntoFavList",
                 payload = jsonObject,
                 doorName = this.name
@@ -218,7 +207,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
     internal fun removeBookFromFavList(book: Book) {
         val jsonObject: JsonObject = Gson().toJsonTree(book).asJsonObject
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "RemoveBookFromFavList",
                 payload = jsonObject,
                 doorName = this.name
@@ -229,7 +218,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
     internal fun addBookIntoReadingList(book: Book) {
         val jsonObject: JsonObject = Gson().toJsonTree(book).asJsonObject
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "AddBookIntoReadingList",
                 payload = jsonObject,
                 doorName = this.name
@@ -240,7 +229,7 @@ class MainAppDoor @Inject constructor() : FeatureEntry() {
     internal fun removeBookFromReadingList(book: Book) {
         val jsonObject: JsonObject = Gson().toJsonTree(book).asJsonObject
         messageSender.send(
-            FeatureCommand(
+            DoorCommand(
                 messageName = "RemoveBookFromReadingList",
                 payload = jsonObject,
                 doorName = this.name

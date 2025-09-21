@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.alpha.myplatformdoor"
+    namespace = "com.alpha.modulesDoor"
     compileSdk = 36
 
     defaultConfig {

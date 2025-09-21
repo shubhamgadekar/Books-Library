@@ -1,14 +1,14 @@
-package com.alpha.myplatformdoor
+package com.alpha.modulesDoor
 
 import android.content.Context
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PlatformHub @Inject constructor() {
+class Door @Inject constructor() {
 
     fun init(applicationContext: Context, doorInitializer: DoorInitializer) {
-        val microKernel = MicroKernel()
-        microKernel.init(applicationContext, doorInitializer)
+        val doorKernel = DoorKernel()
+        doorKernel.init(applicationContext, doorInitializer)
     }
 }
