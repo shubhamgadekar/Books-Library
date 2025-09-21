@@ -134,6 +134,8 @@ ktlint {
 }
 
 dependencies {
+    implementation(project(":modulesDoor"))
+    implementation(project(":data"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -218,4 +220,7 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.test.manifest)
     testImplementation(kotlin("test"))
+
+    // gson
+    implementation(libs.gson)
 }

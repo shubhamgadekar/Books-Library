@@ -16,7 +16,7 @@ import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
 @Composable
-fun MyAppNavHost(innerPadding: PaddingValues) {
+internal fun MyAppNavHost(innerPadding: PaddingValues) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "home", modifier = Modifier.padding(innerPadding)) {

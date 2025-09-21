@@ -13,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,15 +22,11 @@ import com.alpha.books_explorer.presentation.ui.BookList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WishlistScreen(
+internal fun WishlistScreen(
     viewModel: WishlistViewModel = hiltViewModel(),
     navController: NavController,
 ) {
     val uiState = viewModel.uiState.collectAsState().value
-
-    SideEffect {
-        viewModel.loadBooks()
-    }
 
     Scaffold(
         topBar = {

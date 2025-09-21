@@ -40,16 +40,11 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(
+internal fun ProfileScreen(
     navController: NavController,
     profileViewModel: ProfileViewModel = viewModel(),
 ) {
     val userProfile by profileViewModel.userProfile.collectAsState()
-
-    // Load profile when the screen is first composed
-    LaunchedEffect(Unit) {
-        profileViewModel.loadUserProfile()
-    }
 
     Scaffold(
         topBar = {
@@ -93,48 +88,20 @@ fun ProfileScreen(
             ProfileInfoItem(label = "Last Name", value = userProfile.lastName)
             ProfileInfoItem(label = "Email", value = userProfile.email)
 
-            // --- Editable Fields Example (Uncomment and use if needed) ---
-            /*
-            OutlinedTextField(
-                value = userProfile.firstName,
-                onValueChange = { profileViewModel.updateFirstName(it) },
-                label = { Text("First Name") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                singleLine = true
-            )
-            OutlinedTextField(
-                value = userProfile.lastName,
-                onValueChange = { profileViewModel.updateLastName(it) },
-                label = { Text("Last Name") },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
-                singleLine = true
-            )
-            // Email might not be editable or have a different update mechanism
-             Text(
-                 text = userProfile.email,
-                 style = MaterialTheme.typography.bodyLarge,
-                 modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
-             )
-             */
-
             Spacer(modifier = Modifier.height(24.dp))
             Divider()
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Wishlist Navigation Item
             ProfileNavigationItem(
                 icon = Icons.Filled.FavoriteBorder,
                 text = "My Wishlist",
                 onClick = {
-                    navController.navigate("wishlistScreen") // Define this route
+                    navController.navigate("wishlistScreen")
                 },
             )
 
-            // You can add more navigation items here, e.g., Order History, Settings
+            Spacer(modifier = Modifier.weight(1f))
 
-            Spacer(modifier = Modifier.weight(1f)) // Pushes content up if screen is tall
-
-            // Example: Logout Button
             Button(
                 onClick = { },
                 modifier = Modifier
@@ -148,7 +115,7 @@ fun ProfileScreen(
 }
 
 @Composable
-fun ProfileInfoItem(
+internal fun ProfileInfoItem(
     label: String,
     value: String,
     modifier: Modifier = Modifier,
@@ -173,7 +140,7 @@ fun ProfileInfoItem(
 }
 
 @Composable
-fun ProfileNavigationItem(
+internal fun ProfileNavigationItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     text: String,
     onClick: () -> Unit,

@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Book-Explorer"
 include(":app")
- 
+include(":modulesDoor")
+include(":data")

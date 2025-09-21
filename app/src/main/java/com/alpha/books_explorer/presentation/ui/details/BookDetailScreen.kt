@@ -60,7 +60,7 @@ import com.alpha.books_explorer.domain.model.Book
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BookDetailScreen(
+internal fun BookDetailScreen(
     navController: NavController,
     bookId: String,
     viewModel: BookDetailViewModel = hiltViewModel(),
@@ -72,8 +72,6 @@ fun BookDetailScreen(
         if (book.book?.id != bookId) {
             viewModel.fetchBookById(bookId)
         }
-        viewModel.checkWishlistItem(book.book)
-        viewModel.checkReadinglistItem(book.book)
     }
 
     Scaffold(
@@ -159,7 +157,7 @@ fun BookDetailScreen(
 }
 
 @Composable
-fun BookDetailsContent(
+internal fun BookDetailsContent(
     book: Book?,
     modifier: Modifier = Modifier,
     viewModel: BookDetailViewModel,
@@ -283,7 +281,7 @@ fun BookDetailsContent(
 }
 
 @Composable
-fun FavoriteTextToggleButton(
+internal fun FavoriteTextToggleButton(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     onFavoriteChanged: (Boolean) -> Unit,
@@ -314,7 +312,7 @@ fun FavoriteTextToggleButton(
 }
 
 @Composable
-fun ReadListToggleButton(
+internal fun ReadListToggleButton(
     modifier: Modifier = Modifier,
     isFavorite: Boolean,
     onFavoriteChanged: (Boolean) -> Unit,

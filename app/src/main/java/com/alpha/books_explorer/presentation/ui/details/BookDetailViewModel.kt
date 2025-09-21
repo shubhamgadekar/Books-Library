@@ -2,14 +2,10 @@ package com.alpha.books_explorer.presentation.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alpha.books_explorer.MainAppDoor
 import com.alpha.books_explorer.domain.model.Book
-import com.alpha.books_explorer.domain.usecase.FavList.AddIntoFavListUseCase
-import com.alpha.books_explorer.domain.usecase.FavList.IsBookPresentInFavListUserCase
-import com.alpha.books_explorer.domain.usecase.FavList.RemoveFromFavListUseCase
-import com.alpha.books_explorer.domain.usecase.GetBookByIdUserCase
-import com.alpha.books_explorer.domain.usecase.readingList.AddIntoReadingListUseCase
-import com.alpha.books_explorer.domain.usecase.readingList.IsBookPresentInReadingListUseCase
-import com.alpha.books_explorer.domain.usecase.readingList.RemoveFromReadingListUseCase
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.delay
@@ -19,17 +15,12 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class BookDetailViewModel
+internal class BookDetailViewModel
 @Inject
 constructor(
-    private val getBookById: GetBookByIdUserCase,
-    private val addIntoFavListUseCase: AddIntoFavListUseCase,
-    private val isBookPresentInFavListUserCase: IsBookPresentInFavListUserCase,
-    private val removeFromFavListUseCase: RemoveFromFavListUseCase,
-    private val addIntoReadingListUseCase: AddIntoReadingListUseCase,
-    private val isBookPresentInReadingListUseCase: IsBookPresentInReadingListUseCase,
-    private val removeFromReadingListUseCase: RemoveFromReadingListUseCase,
+    private val appDoor: MainAppDoor,
 ) : ViewModel() {
+
     private val _bookState = MutableStateFlow(BookDetailsUiState())
     val bookState: StateFlow<BookDetailsUiState> = _bookState
 
@@ -39,74 +30,100 @@ constructor(
     private val _checkReadinglistItem = MutableStateFlow(false)
     val checkReadinglistItem: StateFlow<Boolean> = _checkReadinglistItem
 
-    fun checkWishlistItem(book: Book?) {
-        if (book == null) {
-            _checkWishlistItem.value = false
-            return
-        }
+    init {
         viewModelScope.launch {
-            isBookPresentInFavListUserCase.invoke(book).collect {
-                _checkWishlistItem.value = it
-            }
-        }
-    }
-
-    fun checkReadinglistItem(book: Book?) {
-        if (book == null) {
-            _checkReadinglistItem.value = false
-            return
-        }
-        viewModelScope.launch {
-            isBookPresentInReadingListUseCase.invoke(book).collect {
-                _checkReadinglistItem.value = it
-            }
-        }
-    }
-
-    fun fetchBookById(bookId: String) {
-        viewModelScope.launch {
-            _bookState.value = BookDetailsUiState(isLoading = true)
-            delay(200)
-            getBookById.invoke(bookId)
+            appDoor.bookById
                 .catch {
                     _bookState.value = BookDetailsUiState(error = it.message)
                 }
                 .collect {
-                    _bookState.value = BookDetailsUiState(book = it)
-                    checkWishlistItem(it)
-                    checkReadinglistItem(it)
+                    val type = object : TypeToken<Book>() {}.type
+                    val book: Book = Gson().fromJson(it.payload, type)
+
+                    _bookState.value = BookDetailsUiState(book = book)
+                    checkWishlistItem(book)
+                    checkReadinglistItem(book)
+                }
+        }
+
+        viewModelScope.launch {
+            appDoor.isBookPresentInFavList
+                .catch {
+
+                }
+                .collect {
+                    val isfav = it.payload?.get("isFav")?.asBoolean == true
+                    _checkWishlistItem.value = isfav
+                }
+        }
+
+        viewModelScope.launch {
+            appDoor.isBookPresentInReadingList
+                .catch {
+
+                }
+                .collect {
+                    val isfav = it.payload?.get("isInReadingList")?.asBoolean == true
+                    _checkReadinglistItem.value = isfav
                 }
         }
     }
 
-    fun addToWishlist(book: Book) {
+    internal fun checkWishlistItem(book: Book?) {
+        if (book == null) {
+            _checkWishlistItem.value = false
+            return
+        }
+        appDoor.checkIfBookIsFav(book.id)
+    }
+
+    internal fun checkReadinglistItem(book: Book?) {
+        if (book == null) {
+            _checkReadinglistItem.value = false
+            return
+        }
+        appDoor.checkIfBookIsInReadingList(book.id)
+    }
+
+    internal fun fetchBookById(bookId: String) {
         viewModelScope.launch {
-            addIntoFavListUseCase.invoke(book)
+            appDoor.getBookById(bookId)
+            _bookState.value = BookDetailsUiState(isLoading = true)
+        }
+    }
+
+    internal fun addToWishlist(book: Book) {
+        viewModelScope.launch {
+            appDoor.addBookIntoFavList(book)
             delay(200)
+            appDoor.getFavBookList()
             checkWishlistItem(book)
         }
     }
 
-    fun removeFromWishList(book: Book) {
+    internal fun removeFromWishList(book: Book) {
         viewModelScope.launch {
-            removeFromFavListUseCase.invoke(book)
+            appDoor.removeBookFromFavList(book)
             delay(200)
+            appDoor.getFavBookList()
             checkWishlistItem(book)
         }
     }
 
-    fun addToReadinglist(book: Book) {
+    internal fun addToReadinglist(book: Book) {
         viewModelScope.launch {
-            addIntoReadingListUseCase.invoke(book)
+            appDoor.addBookIntoReadingList(book)
             delay(200)
+            appDoor.getReadingList()
             checkReadinglistItem(book)
         }
     }
 
-    fun removeFromReadingList(book: Book) {
+    internal fun removeFromReadingList(book: Book) {
         viewModelScope.launch {
-            removeFromReadingListUseCase.invoke(book)
+            appDoor.removeBookFromReadingList(book)
             delay(200)
+            appDoor.getReadingList()
             checkReadinglistItem(book)
         }
     }

@@ -1,11 +1,11 @@
 package com.alpha.books_explorer.presentation.ui.search
 
-import androidx.paging.PagingData
 import com.alpha.books_explorer.domain.model.Book
-import kotlinx.coroutines.flow.Flow
 
-data class SearchUiState(
+internal data class SearchUiState(
     val isLoading: Boolean = false,
-    val books: Flow<PagingData<Book>>? = null,
+    val isLoadingNextPage: Boolean = false,
+    val books: List<Book> = emptyList(),
     val error: String? = null,
+    val querySearched: Boolean = false
 )
